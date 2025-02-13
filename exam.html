@@ -15,29 +15,27 @@
 
   <body class="bg-light">
     <div class="container my-4">
-      <h1 class="text-center mb-4">Exam Details</h1>
-      
-      <!-- Exam Name (Updated Dynamically) -->
-      <h2 id="examName" class="text-center">Loading Exam...</h2>
+      <h1 class="text-center mb-4" id="examName">Exam Details</h1>
 
-      <!-- Upload Photo Section -->
-      <div class="card p-3 mt-3">
+      <!-- Photo Upload -->
+      <div class="mb-4">
         <h4>Upload Photo</h4>
-        <input type="file" id="photoUpload" accept="image/*" class="form-control mb-2">
-        <canvas id="photoCanvas" class="border mb-2"></canvas>
-        <button id="photoResizeButton" class="btn btn-primary">Resize Photo</button>
+        <input type="file" id="photoUpload" class="form-control mb-2">
+        <canvas id="photoCanvas" class="d-none"></canvas>
+        <button id="photoResizeButton" class="btn btn-primary mt-2">Resize Photo</button>
+        <button id="photoDownloadButton" class="btn btn-success mt-2" disabled>Download Resized Photo</button>
       </div>
 
-      <!-- Upload Signature Section -->
-      <div class="card p-3 mt-3">
+      <!-- Signature Upload -->
+      <div>
         <h4>Upload Signature</h4>
-        <input type="file" id="signatureUpload" accept="image/*" class="form-control mb-2">
-        <canvas id="signatureCanvas" class="border mb-2"></canvas>
-        <button id="signatureResizeButton" class="btn btn-primary">Resize Signature</button>
+        <input type="file" id="signatureUpload" class="form-control mb-2">
+        <canvas id="signatureCanvas" class="d-none"></canvas>
+        <button id="signatureResizeButton" class="btn btn-primary mt-2">Resize Signature</button>
+        <button id="signatureDownloadButton" class="btn btn-success mt-2" disabled>Download Resized Signature</button>
       </div>
     </div>
 
-    <!-- JavaScript -->
     <script src="exam.js"></script>
   </body>
 </html>
