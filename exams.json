@@ -6,6 +6,7 @@
     "photoHeight": 400,
     "signatureWidth": 140,
     "signatureHeight": 60,
+    "minFileSizeKB": 20,
     "maxFileSizeKB": 50
   },
   {
@@ -15,6 +16,7 @@
     "photoHeight": 450,
     "signatureWidth": 160,
     "signatureHeight": 80,
+    "minFileSizeKB": 20,
     "maxFileSizeKB": 100
   }
 ]
