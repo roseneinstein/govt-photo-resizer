@@ -14,34 +14,29 @@
   </head>
 
   <body>
-    <!-- Step 2: Wrap everything in a container -->
     <div class="container my-4">
-      <h1>Govt Exam Photo Resizer</h1>
+      <h1 class="text-center mb-4">Govt Exam Photo Resizer</h1>
 
-      <h2>Upcoming Exams</h2>
+      <h2 class="mb-3">Upcoming Exams</h2>
       <div id="examList"></div>
       <hr>
 
       <!-- Photo Section (hidden by default until an exam is selected) -->
-      <div id="photoSection" style="display: none;">
+      <div id="photoSection" class="card p-3 mb-4" style="display: none;">
         <h3>Photo Upload</h3>
-        <input type="file" id="photoUpload" accept="image/*">
-        <br><br>
+        <input type="file" id="photoUpload" accept="image/*" class="form-control my-2">
         <canvas id="photoCanvas" style="border:1px solid #000;"></canvas>
-        <br><br>
-        <button id="photoResizeButton">Resize Photo</button>
+        <br>
+        <button id="photoResizeButton" class="btn btn-success mt-3">Resize Photo</button>
       </div>
 
-      <hr>
-
       <!-- Signature Section (hidden by default until an exam is selected) -->
-      <div id="signatureSection" style="display: none;">
+      <div id="signatureSection" class="card p-3 mb-4" style="display: none;">
         <h3>Signature Upload</h3>
-        <input type="file" id="signatureUpload" accept="image/*">
-        <br><br>
+        <input type="file" id="signatureUpload" accept="image/*" class="form-control my-2">
         <canvas id="signatureCanvas" style="border:1px solid #000;"></canvas>
-        <br><br>
-        <button id="signatureResizeButton">Resize Signature</button>
+        <br>
+        <button id="signatureResizeButton" class="btn btn-warning mt-3">Resize Signature</button>
       </div>
     </div>
 
