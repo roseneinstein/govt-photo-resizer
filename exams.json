@@ -1,5 +1,15 @@
 [
   {
+    "name": "UPSC-CSE(P)",
+    "date": "Last day to apply :18/02/2025",
+    "photoWidth": 500,
+    "photoHeight": 500,
+    "signatureWidth": 400,
+    "signatureHeight": 400,
+    "minFileSizeKB": 20,
+    "maxFileSizeKB": 300
+  },
+  {
     "name": "IIT-JEE 2025",
     "date": "last day to apply :25/03/2025",
     "photoWidth": 300,
