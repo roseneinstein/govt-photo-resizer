@@ -4,7 +4,7 @@ console.log("Welcome to Govt Exam Photo Resizer!");
 let selectedExam = null;
 
 /**
- * 1) Fetch the exams from exams.json and display them.
+ * Fetch the exams from exams.json and display them.
  */
 function fetchExams() {
   fetch('exams.json')
@@ -20,7 +20,8 @@ function fetchExams() {
 }
 
 /**
- * 2) Display the exams as buttons, just like before.
+ * Display the exams as buttons, just like before.
+ * Now we add Bootstrap classes to make them look nice.
  */
 function displayUpcomingExams(examsData) {
   const examListDiv = document.getElementById("examList");
@@ -33,6 +34,8 @@ function displayUpcomingExams(examsData) {
 
   examsData.forEach((exam) => {
     const examButton = document.createElement("button");
+    // Add Bootstrap classes: btn, btn-primary (blue), and my-2 for spacing
+    examButton.classList.add("btn", "btn-primary", "my-2");
     examButton.textContent = exam.name + " (" + exam.date + ")";
 
     examButton.addEventListener("click", function() {
@@ -54,7 +57,7 @@ function displayUpcomingExams(examsData) {
 }
 
 /**
- * 3) Clear a canvas by ID.
+ * Clear a canvas by ID.
  */
 function clearCanvas(canvasId) {
   const c = document.getElementById(canvasId);
@@ -65,7 +68,7 @@ function clearCanvas(canvasId) {
 }
 
 /**
- * 4) Resize a canvas to the target width/height (basic scaling).
+ * Resize a canvas to the target width/height (basic scaling).
  */
 function resizeCanvas(canvas, context, targetWidth, targetHeight) {
   const tempCanvas = document.createElement("canvas");
@@ -83,15 +86,13 @@ function resizeCanvas(canvas, context, targetWidth, targetHeight) {
 }
 
 /**
- * 5) Compress the canvas image until it's under the exam's maxFileSizeKB (or quality too low).
- *    We'll assume the exam has "maxFileSizeKB" for both photo & signature.
+ * Compress the canvas image until it's under the exam's maxFileSizeKB (or quality too low).
  */
 function compressCanvasToMaxKB(canvas, context, maxKB) {
-  let quality = 1.0; // start at best quality
+  let quality = 1.0; 
   let dataUrl = canvas.toDataURL("image/jpeg", quality);
   let sizeKB = dataURLSizeInKB(dataUrl);
 
-  // While it's bigger than maxKB and quality > 0.1, keep lowering quality
   while (sizeKB > maxKB && quality > 0.1) {
     quality -= 0.1; 
     dataUrl = canvas.toDataURL("image/jpeg", quality);
@@ -99,11 +100,8 @@ function compressCanvasToMaxKB(canvas, context, maxKB) {
   }
 
   if (sizeKB > maxKB) {
-    // Even at 0.1 quality, it's still too big
-    alert(`We couldn't compress it enough! It's still ${sizeKB.toFixed(1)} KB, sorry.`);
+    alert(`We couldn't compress it enough! It's still ${sizeKB.toFixed(1)} KB.`);
   } else {
-    // It's now under the required size
-    // Let's draw it back to the canvas so the user can see/download it
     const tempImg = new Image();
     tempImg.onload = function() {
       canvas.width = tempImg.width;
@@ -120,12 +118,8 @@ function compressCanvasToMaxKB(canvas, context, maxKB) {
  * Helper: Calculate the size in KB of a base64 data URL
  */
 function dataURLSizeInKB(dataUrl) {
-  // dataUrl looks like "data:image/jpeg;base64,XXXXXXXX..."
-  // Split at the comma to get the base64 part
   const base64String = dataUrl.split(",")[1];
-  // Each 4 chars of base64 = 3 bytes
   const sizeInBytes = (base64String.length * 3) / 4;
-  // Convert to KB
   return sizeInBytes / 1024;
 }
 
@@ -162,10 +156,7 @@ photoResizeBtn.addEventListener("click", function() {
     return;
   }
 
-  // 1) Resize to exam's photoWidth/photoHeight
   resizeCanvas(photoCanvas, photoCtx, selectedExam.photoWidth, selectedExam.photoHeight);
-
-  // 2) Compress until under selectedExam.maxFileSizeKB
   compressCanvasToMaxKB(photoCanvas, photoCtx, selectedExam.maxFileSizeKB);
 });
 
@@ -202,10 +193,7 @@ signatureResizeBtn.addEventListener("click", function() {
     return;
   }
 
-  // 1) Resize to exam's signatureWidth/signatureHeight
   resizeCanvas(signatureCanvas, signatureCtx, selectedExam.signatureWidth, selectedExam.signatureHeight);
-
-  // 2) Compress until under selectedExam.maxFileSizeKB
   compressCanvasToMaxKB(signatureCanvas, signatureCtx, selectedExam.maxFileSizeKB);
 });
 
