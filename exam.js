@@ -44,6 +44,10 @@ photoResizeBtn.addEventListener("click", function() {
 });
 
 photoDownloadBtn.addEventListener("click", function() {
+  if (!window.selectedExam) {
+    alert("Exam info not loaded!");
+    return;
+  }
   downloadCompressedJPG(photoCanvas, "resized_photo.jpg", window.selectedExam.minFileSizeKB, window.selectedExam.maxFileSizeKB);
 });
 
@@ -69,6 +73,10 @@ signatureResizeBtn.addEventListener("click", function() {
 });
 
 signatureDownloadBtn.addEventListener("click", function() {
+  if (!window.selectedExam) {
+    alert("Exam info not loaded!");
+    return;
+  }
   downloadCompressedJPG(signatureCanvas, "resized_signature.jpg", window.selectedExam.minFileSizeKB, window.selectedExam.maxFileSizeKB);
 });
 
@@ -99,6 +107,8 @@ function resizeAndCompress(canvas, context, targetWidth, targetHeight) {
   canvas.width = targetWidth;
   canvas.height = targetHeight;
   context.drawImage(tempCanvas, 0, 0);
+
+  console.log(`Image resized to ${targetWidth}x${targetHeight}`);
 }
 
 function downloadCompressedJPG(canvas, filename, minKB, maxKB) {
@@ -106,10 +116,18 @@ function downloadCompressedJPG(canvas, filename, minKB, maxKB) {
 
   function attemptDownload() {
     canvas.toBlob((blob) => {
+      if (!blob) {
+        console.error("Error: Unable to create Blob from canvas.");
+        alert("Error while processing image.");
+        return;
+      }
+
       let fileSizeKB = blob.size / 1024;
+      console.log(`Current file size: ${fileSizeKB.toFixed(1)} KB (Target: ${minKB} KB - ${maxKB} KB)`);
 
       if (fileSizeKB > maxKB && quality > 0.1) {
         quality -= 0.05;
+        console.log(`Reducing quality to ${quality.toFixed(2)} and retrying...`);
         attemptDownload();
       } else if (fileSizeKB < minKB) {
         alert(`File is too small (${fileSizeKB.toFixed(1)} KB). Minimum required size is ${minKB} KB.`);
@@ -120,6 +138,7 @@ function downloadCompressedJPG(canvas, filename, minKB, maxKB) {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+
         alert(`Downloaded file size: ${fileSizeKB.toFixed(1)} KB (between ${minKB} KB and ${maxKB} KB)`);
       }
     }, "image/jpeg", quality);
