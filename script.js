@@ -1,57 +1,15 @@
-// A list of upcoming exams, each with a name, date, and dimensions
-const upcomingExams = [
-  {
-    name: "IIT-JEE 2025",
-    date: "2025-05-10",
-    photoWidth: 300,
-    photoHeight: 400,
-    signatureWidth: 140,
-    signatureHeight: 60
-  },
-  {
-    name: "NEET 2025",
-    date: "2025-05-15",
-    photoWidth: 350,
-    photoHeight: 450,
-    signatureWidth: 160,
-    signatureHeight: 80
-  }
-  // Add more exams as needed
-];
-
 console.log("Welcome to Govt Exam Photo Resizer!");
 
-// We'll store the exam the user selected
+// We'll store the exam the user selected (for photo/signature resizing)
 let selectedExam = null;
 
 /**
- * Display the upcoming exams as buttons.
+ * For now, this does nothing except tell the user no exams are loaded.
+ * In Step 2, we'll replace this with code that reads from exams.json.
  */
 function displayUpcomingExams() {
   const examListDiv = document.getElementById("examList");
-  examListDiv.innerHTML = "";
-
-  upcomingExams.forEach((exam) => {
-    // Create a button for each exam
-    const examButton = document.createElement("button");
-    examButton.textContent = exam.name + " (" + exam.date + ")";
-
-    // When user clicks an exam, store the exam, show the sections
-    examButton.addEventListener("click", function() {
-      selectedExam = exam;
-
-      // Show the photo and signature sections
-      document.getElementById("photoSection").style.display = "block";
-      document.getElementById("signatureSection").style.display = "block";
-
-      // Clear existing images if any
-      clearCanvas("photoCanvas");
-      clearCanvas("signatureCanvas");
-    });
-
-    examListDiv.appendChild(examButton);
-    examListDiv.appendChild(document.createElement("br"));
-  });
+  examListDiv.innerHTML = "No exams loaded yet. (We'll fix this soon!)";
 }
 
 /**
@@ -81,7 +39,7 @@ function resizeCanvas(canvas, context, targetWidth, targetHeight) {
   context.drawImage(tempCanvas, 0, 0);
 }
 
-// Display the exams when the page loads
+// Display exams when the page loads (currently shows "No exams loaded yet.")
 displayUpcomingExams();
 
 /* 
@@ -116,13 +74,13 @@ photoUploadInput.addEventListener("change", function(e) {
 const photoResizeBtn = document.getElementById("photoResizeButton");
 photoResizeBtn.addEventListener("click", function() {
   if (!selectedExam) {
-    alert("Please select an exam first!");
+    alert("No exam selected yet! We'll fix this in the next step.");
     return;
   }
 
-  // Use the selected exam's photo dimensions
-  const targetWidth = selectedExam.photoWidth;
-  const targetHeight = selectedExam.photoHeight;
+  // In the future, we'll get photoWidth/photoHeight from selectedExam
+  const targetWidth = 300;
+  const targetHeight = 400;
   resizeCanvas(photoCanvas, photoCtx, targetWidth, targetHeight);
 });
 
@@ -158,24 +116,12 @@ signatureUploadInput.addEventListener("change", function(e) {
 const signatureResizeBtn = document.getElementById("signatureResizeButton");
 signatureResizeBtn.addEventListener("click", function() {
   if (!selectedExam) {
-    alert("Please select an exam first!");
+    alert("No exam selected yet! We'll fix this in the next step.");
     return;
   }
 
-  // Use the selected exam's signature dimensions
-  const targetWidth = selectedExam.signatureWidth;
-  const targetHeight = selectedExam.signatureHeight;
+  // In the future, we'll get signatureWidth/signatureHeight from selectedExam
+  const targetWidth = 140;
+  const targetHeight = 60;
   resizeCanvas(signatureCanvas, signatureCtx, targetWidth, targetHeight);
 });
-
-/*
-  ---------------------------------------------------------
-  OLD CODE (OPTIONAL)
-  ---------------------------------------------------------
-  If you want to remove the old code for the single dropdown-based 
-  approach, you can delete or comment it out. Example:
-
-  // const uploadInput = document.getElementById("upload");
-  // ...
-*/
-
