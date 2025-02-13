@@ -21,87 +21,161 @@ const upcomingExams = [
 
 console.log("Welcome to Govt Exam Photo Resizer!");
 
-// This function will display the upcoming exams as buttons
+// We'll store the exam the user selected
+let selectedExam = null;
+
+/**
+ * Display the upcoming exams as buttons.
+ */
 function displayUpcomingExams() {
   const examListDiv = document.getElementById("examList");
-  // Clear anything already inside examListDiv
   examListDiv.innerHTML = "";
 
-  // Go through each exam in our array
   upcomingExams.forEach((exam) => {
-    // Create a button for this exam
+    // Create a button for each exam
     const examButton = document.createElement("button");
     examButton.textContent = exam.name + " (" + exam.date + ")";
 
-    // When the user clicks the button, just show an alert for now
+    // When user clicks an exam, store the exam, show the sections
     examButton.addEventListener("click", function() {
-      alert("You selected: " + exam.name);
+      selectedExam = exam;
+
+      // Show the photo and signature sections
+      document.getElementById("photoSection").style.display = "block";
+      document.getElementById("signatureSection").style.display = "block";
+
+      // Clear existing images if any
+      clearCanvas("photoCanvas");
+      clearCanvas("signatureCanvas");
     });
 
-    // Add the button to the examListDiv
     examListDiv.appendChild(examButton);
     examListDiv.appendChild(document.createElement("br"));
   });
 }
 
-// Call the function to display the upcoming exams when the page loads
+/**
+ * Helper function to clear a canvas by ID.
+ */
+function clearCanvas(canvasId) {
+  const c = document.getElementById(canvasId);
+  const context = c.getContext("2d");
+  context.clearRect(0, 0, c.width, c.height);
+  c.width = 0;
+  c.height = 0;
+}
+
+/**
+ * Helper function to resize a canvas to the target width/height.
+ */
+function resizeCanvas(canvas, context, targetWidth, targetHeight) {
+  const tempCanvas = document.createElement("canvas");
+  const tempCtx = tempCanvas.getContext("2d");
+  tempCanvas.width = targetWidth;
+  tempCanvas.height = targetHeight;
+
+  tempCtx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, targetWidth, targetHeight);
+
+  canvas.width = targetWidth;
+  canvas.height = targetHeight;
+  context.drawImage(tempCanvas, 0, 0);
+}
+
+// Display the exams when the page loads
 displayUpcomingExams();
 
 /* 
   ---------------------------------------------------------
-  ORIGINAL IMAGE UPLOAD/RESIZE CODE (for reference)
+  PHOTO UPLOAD & RESIZE
   ---------------------------------------------------------
-  We'll later adapt or remove this code when we create a
-  dedicated photo/signature resizing step for each exam.
 */
+const photoUploadInput = document.getElementById("photoUpload");
+const photoCanvas = document.getElementById("photoCanvas");
+const photoCtx = photoCanvas.getContext("2d");
 
-// Get the HTML elements for the original dropdown-based approach
-const uploadInput = document.getElementById("upload");
-const canvas = document.getElementById("photoCanvas");
-const ctx = canvas.getContext("2d");
-
-// When an image is uploaded...
-uploadInput.addEventListener("change", function(e) {
+photoUploadInput.addEventListener("change", function(e) {
   const file = e.target.files[0];
   const reader = new FileReader();
 
   reader.onload = function(event) {
     const img = new Image();
     img.onload = function() {
-      // Set the canvas size equal to the image size
-      canvas.width = img.width;
-      canvas.height = img.height;
-      // Draw the image on the canvas
-      ctx.drawImage(img, 0, 0);
-    }
+      // Set the canvas size to the uploaded image size
+      photoCanvas.width = img.width;
+      photoCanvas.height = img.height;
+      photoCtx.drawImage(img, 0, 0);
+    };
     img.src = event.target.result;
-  }
+  };
 
-  if(file) {
+  if (file) {
     reader.readAsDataURL(file);
   }
 });
 
-// When the "Resize Image" button is clicked...
-const resizeButton = document.getElementById("resizeButton");
-resizeButton.addEventListener("click", function() {
-  // If there's no dropdown, this won't do much, but let's keep it for now
-  const presetSelect = document.getElementById("examPreset");
-  if (!presetSelect) return;
+const photoResizeBtn = document.getElementById("photoResizeButton");
+photoResizeBtn.addEventListener("click", function() {
+  if (!selectedExam) {
+    alert("Please select an exam first!");
+    return;
+  }
 
-  const [targetWidth, targetHeight] = presetSelect.value.split("x").map(Number);
-
-  // Create a temporary canvas to resize the image
-  const tempCanvas = document.createElement("canvas");
-  const tempCtx = tempCanvas.getContext("2d");
-  tempCanvas.width = targetWidth;
-  tempCanvas.height = targetHeight;
-
-  // Draw the image from the original canvas into the temporary canvas, resizing it
-  tempCtx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, targetWidth, targetHeight);
-
-  // Replace the original canvas content with the resized image
-  canvas.width = targetWidth;
-  canvas.height = targetHeight;
-  ctx.drawImage(tempCanvas, 0, 0);
+  // Use the selected exam's photo dimensions
+  const targetWidth = selectedExam.photoWidth;
+  const targetHeight = selectedExam.photoHeight;
+  resizeCanvas(photoCanvas, photoCtx, targetWidth, targetHeight);
 });
+
+/* 
+  ---------------------------------------------------------
+  SIGNATURE UPLOAD & RESIZE
+  ---------------------------------------------------------
+*/
+const signatureUploadInput = document.getElementById("signatureUpload");
+const signatureCanvas = document.getElementById("signatureCanvas");
+const signatureCtx = signatureCanvas.getContext("2d");
+
+signatureUploadInput.addEventListener("change", function(e) {
+  const file = e.target.files[0];
+  const reader = new FileReader();
+
+  reader.onload = function(event) {
+    const img = new Image();
+    img.onload = function() {
+      // Set the canvas size to the uploaded image size
+      signatureCanvas.width = img.width;
+      signatureCanvas.height = img.height;
+      signatureCtx.drawImage(img, 0, 0);
+    };
+    img.src = event.target.result;
+  };
+
+  if (file) {
+    reader.readAsDataURL(file);
+  }
+});
+
+const signatureResizeBtn = document.getElementById("signatureResizeButton");
+signatureResizeBtn.addEventListener("click", function() {
+  if (!selectedExam) {
+    alert("Please select an exam first!");
+    return;
+  }
+
+  // Use the selected exam's signature dimensions
+  const targetWidth = selectedExam.signatureWidth;
+  const targetHeight = selectedExam.signatureHeight;
+  resizeCanvas(signatureCanvas, signatureCtx, targetWidth, targetHeight);
+});
+
+/*
+  ---------------------------------------------------------
+  OLD CODE (OPTIONAL)
+  ---------------------------------------------------------
+  If you want to remove the old code for the single dropdown-based 
+  approach, you can delete or comment it out. Example:
+
+  // const uploadInput = document.getElementById("upload");
+  // ...
+*/
+
