@@ -40,14 +40,10 @@ photoResizeBtn.addEventListener("click", function() {
     alert("Exam info not loaded!");
     return;
   }
-  resizeAndCompress(photoCanvas, photoCtx, window.selectedExam.photoWidth, window.selectedExam.photoHeight);
+  resizeAndCompress(photoCanvas, photoCtx, window.selectedExam.photoWidth, window.selectedExam.photoHeight, window.selectedExam.minFileSizeKB, window.selectedExam.maxFileSizeKB, photoDownloadBtn);
 });
 
 photoDownloadBtn.addEventListener("click", function() {
-  if (!window.selectedExam) {
-    alert("Exam info not loaded!");
-    return;
-  }
   downloadCompressedJPG(photoCanvas, "resized_photo.jpg", window.selectedExam.minFileSizeKB, window.selectedExam.maxFileSizeKB);
 });
 
@@ -69,14 +65,10 @@ signatureResizeBtn.addEventListener("click", function() {
     alert("Exam info not loaded!");
     return;
   }
-  resizeAndCompress(signatureCanvas, signatureCtx, window.selectedExam.signatureWidth, window.selectedExam.signatureHeight);
+  resizeAndCompress(signatureCanvas, signatureCtx, window.selectedExam.signatureWidth, window.selectedExam.signatureHeight, window.selectedExam.minFileSizeKB, window.selectedExam.maxFileSizeKB, signatureDownloadBtn);
 });
 
 signatureDownloadBtn.addEventListener("click", function() {
-  if (!window.selectedExam) {
-    alert("Exam info not loaded!");
-    return;
-  }
   downloadCompressedJPG(signatureCanvas, "resized_signature.jpg", window.selectedExam.minFileSizeKB, window.selectedExam.maxFileSizeKB);
 });
 
@@ -97,7 +89,7 @@ function loadAndDrawImage(file, canvas, context) {
   if (file) reader.readAsDataURL(file);
 }
 
-function resizeAndCompress(canvas, context, targetWidth, targetHeight) {
+function resizeAndCompress(canvas, context, targetWidth, targetHeight, minKB, maxKB, downloadButton) {
   const tempCanvas = document.createElement("canvas");
   const tempCtx = tempCanvas.getContext("2d");
   tempCanvas.width = targetWidth;
@@ -108,7 +100,8 @@ function resizeAndCompress(canvas, context, targetWidth, targetHeight) {
   canvas.height = targetHeight;
   context.drawImage(tempCanvas, 0, 0);
 
-  console.log(`Image resized to ${targetWidth}x${targetHeight}`);
+  // Enable download button after resizing
+  downloadButton.disabled = false;
 }
 
 function downloadCompressedJPG(canvas, filename, minKB, maxKB) {
@@ -116,21 +109,13 @@ function downloadCompressedJPG(canvas, filename, minKB, maxKB) {
 
   function attemptDownload() {
     canvas.toBlob((blob) => {
-      if (!blob) {
-        console.error("Error: Unable to create Blob from canvas.");
-        alert("Error while processing image.");
-        return;
-      }
-
-      let fileSizeKB = blob.size / 1024;
-      console.log(`Current file size: ${fileSizeKB.toFixed(1)} KB (Target: ${minKB} KB - ${maxKB} KB)`);
-
+      const fileSizeKB = blob.size / 1024;
+      
       if (fileSizeKB > maxKB && quality > 0.1) {
         quality -= 0.05;
-        console.log(`Reducing quality to ${quality.toFixed(2)} and retrying...`);
         attemptDownload();
       } else if (fileSizeKB < minKB) {
-        alert(`File is too small (${fileSizeKB.toFixed(1)} KB). Minimum required size is ${minKB} KB.`);
+        alert(`File size too small (${fileSizeKB.toFixed(1)} KB). Minimum required is ${minKB} KB.`);
       } else {
         const link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
@@ -138,8 +123,7 @@ function downloadCompressedJPG(canvas, filename, minKB, maxKB) {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-
-        alert(`Downloaded file size: ${fileSizeKB.toFixed(1)} KB (between ${minKB} KB and ${maxKB} KB)`);
+        alert(`Downloaded file size: ${fileSizeKB.toFixed(1)} KB (within ${minKB}-${maxKB} KB)`);
       }
     }, "image/jpeg", quality);
   }
