@@ -9,19 +9,12 @@ console.log("Exam name from URL:", examNameParam);
 fetch('exams.json')
   .then(response => response.json())
   .then(examsData => {
-    // 3) Find the exam that matches examNameParam
     const selectedExam = examsData.find(e => e.name === examNameParam);
-
     if (!selectedExam) {
-      // If no match, show an error
       document.getElementById("examName").textContent = "Exam not found!";
       return;
     }
-
-    // 4) Display the exam name
     document.getElementById("examName").textContent = selectedExam.name;
-
-    // 5) Store the exam data in a global variable
     window.selectedExam = selectedExam;
   })
   .catch(error => {
@@ -47,12 +40,11 @@ photoResizeBtn.addEventListener("click", function() {
     alert("Exam info not loaded!");
     return;
   }
-
   resizeAndCompress(photoCanvas, photoCtx, window.selectedExam.photoWidth, window.selectedExam.photoHeight, window.selectedExam.maxFileSizeKB);
 });
 
 photoDownloadBtn.addEventListener("click", function() {
-  downloadCanvasAsJPG(photoCanvas, "resized_photo.jpg");
+  downloadCompressedJPG(photoCanvas, "resized_photo.jpg", window.selectedExam.maxFileSizeKB);
 });
 
 // ====================
@@ -73,21 +65,18 @@ signatureResizeBtn.addEventListener("click", function() {
     alert("Exam info not loaded!");
     return;
   }
-
   resizeAndCompress(signatureCanvas, signatureCtx, window.selectedExam.signatureWidth, window.selectedExam.signatureHeight, window.selectedExam.maxFileSizeKB);
 });
 
 signatureDownloadBtn.addEventListener("click", function() {
-  downloadCanvasAsJPG(signatureCanvas, "resized_signature.jpg");
+  downloadCompressedJPG(signatureCanvas, "resized_signature.jpg", window.selectedExam.maxFileSizeKB);
 });
 
 // ====================
 // Helper Functions
 // ====================
-
 function loadAndDrawImage(file, canvas, context) {
   const reader = new FileReader();
-  
   reader.onload = function(event) {
     const img = new Image();
     img.onload = function() {
@@ -97,10 +86,7 @@ function loadAndDrawImage(file, canvas, context) {
     };
     img.src = event.target.result;
   };
-
-  if (file) {
-    reader.readAsDataURL(file);
-  }
+  if (file) reader.readAsDataURL(file);
 }
 
 function resizeAndCompress(canvas, context, targetWidth, targetHeight, maxKB) {
@@ -108,9 +94,8 @@ function resizeAndCompress(canvas, context, targetWidth, targetHeight, maxKB) {
   const tempCtx = tempCanvas.getContext("2d");
   tempCanvas.width = targetWidth;
   tempCanvas.height = targetHeight;
-
+  
   tempCtx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, targetWidth, targetHeight);
-
   canvas.width = targetWidth;
   canvas.height = targetHeight;
   context.drawImage(tempCanvas, 0, 0);
@@ -129,11 +114,7 @@ function compressCanvasToMaxKB(canvas, context, maxKB) {
     sizeKB = dataURLSizeInKB(dataUrl);
   }
 
-  if (sizeKB > maxKB) {
-    alert(`We couldn't compress it enough! It's still ${sizeKB.toFixed(1)} KB.`);
-  } else {
-    alert(`Success! Final size: ${sizeKB.toFixed(1)} KB (under ${maxKB} KB)`);
-  }
+  alert(`Success! Final size: ${sizeKB.toFixed(1)} KB (under ${maxKB} KB)`);
 }
 
 function dataURLSizeInKB(dataUrl) {
@@ -142,9 +123,21 @@ function dataURLSizeInKB(dataUrl) {
   return sizeInBytes / 1024;
 }
 
-function downloadCanvasAsJPG(canvas, filename) {
+function downloadCompressedJPG(canvas, filename, maxKB) {
+  let quality = 1.0;
+  let dataUrl = canvas.toDataURL("image/jpeg", quality);
+  let sizeKB = dataURLSizeInKB(dataUrl);
+
+  while (sizeKB > maxKB && quality > 0.1) {
+    quality -= 0.05;
+    dataUrl = canvas.toDataURL("image/jpeg", quality);
+    sizeKB = dataURLSizeInKB(dataUrl);
+  }
+
   const link = document.createElement("a");
-  link.href = canvas.toDataURL("image/jpeg", 1.0);  // Force high-quality JPG
+  link.href = dataUrl;
   link.download = filename;
   link.click();
+
+  alert(`Downloaded file should match final displayed size! Expected: ${sizeKB.toFixed(1)} KB`);
 }
