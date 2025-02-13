@@ -12,7 +12,7 @@ fetch('exams.json')
     examListDiv.innerHTML = "Could not load exams. Please try again later.";
   });
 
-// 2) Show each exam as a clickable link to exam.html
+// 2) Show each exam as a clickable "list-group-item"
 function displayExamLinks(examsData) {
   const examListDiv = document.getElementById("examList");
   examListDiv.innerHTML = "";
@@ -23,13 +23,16 @@ function displayExamLinks(examsData) {
   }
 
   examsData.forEach(exam => {
-    // We'll make an <a> link that points to exam.html?name=ExamName
+    // Create an <a> element for each exam
     const link = document.createElement("a");
     link.href = `exam.html?name=${encodeURIComponent(exam.name)}`;
     link.textContent = exam.name + " (" + exam.date + ")";
 
-    // Bootstrap classes to make it look like a button
-    link.classList.add("btn", "btn-primary", "my-2", "d-block");
+    // Use Bootstrap classes for list-group items
+    // "list-group-item" gives the box style
+    // "list-group-item-action" makes it clickable
+    // "mb-2" adds bottom margin for spacing
+    link.classList.add("list-group-item", "list-group-item-action", "mb-2");
 
     examListDiv.appendChild(link);
   });
