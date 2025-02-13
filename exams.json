@@ -1,0 +1,20 @@
+[
+  {
+    "name": "IIT-JEE 2025",
+    "date": "2025-05-10",
+    "photoWidth": 300,
+    "photoHeight": 400,
+    "signatureWidth": 140,
+    "signatureHeight": 60,
+    "maxFileSizeKB": 50
+  },
+  {
+    "name": "NEET 2025",
+    "date": "2025-05-15",
+    "photoWidth": 350,
+    "photoHeight": 450,
+    "signatureWidth": 160,
+    "signatureHeight": 80,
+    "maxFileSizeKB": 100
+  }
+]
