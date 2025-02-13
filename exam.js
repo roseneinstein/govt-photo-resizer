@@ -134,10 +134,21 @@ function downloadCompressedJPG(canvas, filename, maxKB) {
     sizeKB = dataURLSizeInKB(dataUrl);
   }
 
+  // Convert base64 to Blob to prevent file size increase
+  const byteString = atob(dataUrl.split(',')[1]);
+  const arrayBuffer = new ArrayBuffer(byteString.length);
+  const uint8Array = new Uint8Array(arrayBuffer);
+  for (let i = 0; i < byteString.length; i++) {
+    uint8Array[i] = byteString.charCodeAt(i);
+  }
+  const blob = new Blob([uint8Array], { type: 'image/jpeg' });
+
   const link = document.createElement("a");
-  link.href = dataUrl;
+  link.href = URL.createObjectURL(blob);
   link.download = filename;
+  document.body.appendChild(link);
   link.click();
+  document.body.removeChild(link);
 
   alert(`Downloaded file should match final displayed size! Expected: ${sizeKB.toFixed(1)} KB`);
 }
