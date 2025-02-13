@@ -21,7 +21,7 @@ fetch('exams.json')
     // 4) Display the exam name
     document.getElementById("examName").textContent = selectedExam.name;
 
-    // 5) Store exam data in a global variable
+    // 5) Store the exam data in a global variable
     window.selectedExam = selectedExam;
   })
   .catch(error => {
@@ -35,40 +35,24 @@ fetch('exams.json')
 const photoUploadInput = document.getElementById("photoUpload");
 const photoCanvas = document.getElementById("photoCanvas");
 const photoCtx = photoCanvas.getContext("2d");
+const photoResizeBtn = document.getElementById("photoResizeButton");
+const photoDownloadBtn = document.getElementById("photoDownloadButton");
 
 photoUploadInput.addEventListener("change", function(e) {
-  const file = e.target.files[0];
-  const reader = new FileReader();
-
-  reader.onload = function(event) {
-    const img = new Image();
-    img.onload = function() {
-      photoCanvas.width = img.width;
-      photoCanvas.height = img.height;
-      photoCtx.drawImage(img, 0, 0);
-    };
-    img.src = event.target.result;
-  };
-
-  if (file) {
-    reader.readAsDataURL(file);
-  }
+  loadAndDrawImage(e.target.files[0], photoCanvas, photoCtx);
 });
 
-const photoResizeBtn = document.getElementById("photoResizeButton");
 photoResizeBtn.addEventListener("click", function() {
   if (!window.selectedExam) {
     alert("Exam info not loaded!");
     return;
   }
 
-  resizeCanvas(photoCanvas, photoCtx, window.selectedExam.photoWidth, window.selectedExam.photoHeight);
-  compressCanvasToMaxKB(photoCanvas, photoCtx, window.selectedExam.maxFileSizeKB);
+  resizeAndCompress(photoCanvas, photoCtx, window.selectedExam.photoWidth, window.selectedExam.photoHeight, window.selectedExam.maxFileSizeKB);
 });
 
-// **Download Resized Photo**
-document.getElementById("photoDownloadButton").addEventListener("click", function() {
-  downloadCanvasAsJPG(photoCanvas, "resized-photo.jpg");
+photoDownloadBtn.addEventListener("click", function() {
+  downloadCanvasAsJPG(photoCanvas, "resized_photo.jpg");
 });
 
 // ====================
@@ -77,17 +61,39 @@ document.getElementById("photoDownloadButton").addEventListener("click", functio
 const signatureUploadInput = document.getElementById("signatureUpload");
 const signatureCanvas = document.getElementById("signatureCanvas");
 const signatureCtx = signatureCanvas.getContext("2d");
+const signatureResizeBtn = document.getElementById("signatureResizeButton");
+const signatureDownloadBtn = document.getElementById("signatureDownloadButton");
 
 signatureUploadInput.addEventListener("change", function(e) {
-  const file = e.target.files[0];
-  const reader = new FileReader();
+  loadAndDrawImage(e.target.files[0], signatureCanvas, signatureCtx);
+});
 
+signatureResizeBtn.addEventListener("click", function() {
+  if (!window.selectedExam) {
+    alert("Exam info not loaded!");
+    return;
+  }
+
+  resizeAndCompress(signatureCanvas, signatureCtx, window.selectedExam.signatureWidth, window.selectedExam.signatureHeight, window.selectedExam.maxFileSizeKB);
+});
+
+signatureDownloadBtn.addEventListener("click", function() {
+  downloadCanvasAsJPG(signatureCanvas, "resized_signature.jpg");
+});
+
+// ====================
+// Helper Functions
+// ====================
+
+function loadAndDrawImage(file, canvas, context) {
+  const reader = new FileReader();
+  
   reader.onload = function(event) {
     const img = new Image();
     img.onload = function() {
-      signatureCanvas.width = img.width;
-      signatureCanvas.height = img.height;
-      signatureCtx.drawImage(img, 0, 0);
+      canvas.width = img.width;
+      canvas.height = img.height;
+      context.drawImage(img, 0, 0);
     };
     img.src = event.target.result;
   };
@@ -95,28 +101,9 @@ signatureUploadInput.addEventListener("change", function(e) {
   if (file) {
     reader.readAsDataURL(file);
   }
-});
+}
 
-const signatureResizeBtn = document.getElementById("signatureResizeButton");
-signatureResizeBtn.addEventListener("click", function() {
-  if (!window.selectedExam) {
-    alert("Exam info not loaded!");
-    return;
-  }
-
-  resizeCanvas(signatureCanvas, signatureCtx, window.selectedExam.signatureWidth, window.selectedExam.signatureHeight);
-  compressCanvasToMaxKB(signatureCanvas, signatureCtx, window.selectedExam.maxFileSizeKB);
-});
-
-// **Download Resized Signature**
-document.getElementById("signatureDownloadButton").addEventListener("click", function() {
-  downloadCanvasAsJPG(signatureCanvas, "resized-signature.jpg");
-});
-
-// ====================
-// Helper Functions
-// ====================
-function resizeCanvas(canvas, context, targetWidth, targetHeight) {
+function resizeAndCompress(canvas, context, targetWidth, targetHeight, maxKB) {
   const tempCanvas = document.createElement("canvas");
   const tempCtx = tempCanvas.getContext("2d");
   tempCanvas.width = targetWidth;
@@ -127,6 +114,8 @@ function resizeCanvas(canvas, context, targetWidth, targetHeight) {
   canvas.width = targetWidth;
   canvas.height = targetHeight;
   context.drawImage(tempCanvas, 0, 0);
+
+  compressCanvasToMaxKB(canvas, context, maxKB);
 }
 
 function compressCanvasToMaxKB(canvas, context, maxKB) {
@@ -135,7 +124,7 @@ function compressCanvasToMaxKB(canvas, context, maxKB) {
   let sizeKB = dataURLSizeInKB(dataUrl);
 
   while (sizeKB > maxKB && quality > 0.1) {
-    quality -= 0.1;
+    quality -= 0.05;
     dataUrl = canvas.toDataURL("image/jpeg", quality);
     sizeKB = dataURLSizeInKB(dataUrl);
   }
@@ -143,14 +132,6 @@ function compressCanvasToMaxKB(canvas, context, maxKB) {
   if (sizeKB > maxKB) {
     alert(`We couldn't compress it enough! It's still ${sizeKB.toFixed(1)} KB.`);
   } else {
-    const tempImg = new Image();
-    tempImg.onload = function() {
-      canvas.width = tempImg.width;
-      canvas.height = tempImg.height;
-      context.drawImage(tempImg, 0, 0);
-    };
-    tempImg.src = dataUrl;
-
     alert(`Success! Final size: ${sizeKB.toFixed(1)} KB (under ${maxKB} KB)`);
   }
 }
@@ -161,13 +142,9 @@ function dataURLSizeInKB(dataUrl) {
   return sizeInBytes / 1024;
 }
 
-// **Function to Download as JPG (With Proper Compression)**
 function downloadCanvasAsJPG(canvas, filename) {
   const link = document.createElement("a");
+  link.href = canvas.toDataURL("image/jpeg", 1.0);  // Force high-quality JPG
   link.download = filename;
-
-  // Use compression quality 0.7 to reduce file size
-  link.href = canvas.toDataURL("image/jpeg", 0.7);
-  
   link.click();
 }
