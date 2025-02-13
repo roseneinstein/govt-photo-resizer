@@ -1,22 +1,33 @@
-/* Apply background image */
 body {
-    background: url('background.jpg') no-repeat center center fixed;
+    background-image: url('background.jpg');
     background-size: cover;
-    font-family: Arial, sans-serif;
+    background-position: center;
+    background-attachment: fixed;
 }
 
-/* Style for container */
+/* Add a semi-transparent background to text containers */
 .container {
-    background: rgba(255, 255, 255, 0.8);
-    padding: 20px;
+    background: rgba(255, 255, 255, 0.6); /* White background with 60% opacity */
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Styling for list group */
-.list-group-item {
-    background: rgba(255, 255, 255, 0.9);
-    border: none;
-    margin-bottom: 10px;
+/* Make headings slightly more visible */
+h1, h2, h3 {
+    background: rgba(255, 255, 255, 0.7);
+    padding: 10px;
+    display: inline-block;
     border-radius: 5px;
+}
+
+/* Improve button visibility */
+.btn {
+    background-color: rgba(0, 123, 255, 0.8); /* Slightly transparent blue */
+    border: none;
+    color: white;
+}
+
+.btn:hover {
+    background-color: rgba(0, 123, 255, 1); /* Fully solid blue on hover */
 }
