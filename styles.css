@@ -1,22 +1,22 @@
+/* Apply background image */
 body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  margin: 20px;
+    background: url('background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: Arial, sans-serif;
 }
 
-h1 {
-  color: #2c3e50;
+/* Style for container */
+.container {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-button {
-  padding: 10px 20px;
-  background-color: #3498db;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-button:hover {
-  background-color: #2980b9;
+/* Styling for list group */
+.list-group-item {
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    margin-bottom: 10px;
+    border-radius: 5px;
 }
