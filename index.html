@@ -7,29 +7,51 @@
   </head>
   <body>
     <h1>Govt Exam Photo Resizer</h1>
+    
+    <!-- Section: Upcoming Exams -->
     <h2>Upcoming Exams</h2>
     <div id="examList"></div>
     <hr>
 
-    <p>Upload your photo below to resize it for your exam requirements.</p>
-    <!-- Dropdown to choose exam preset -->
+    <!-- Photo Section (hidden by default) -->
+    <div id="photoSection" style="display: none;">
+      <h3>Photo Upload</h3>
+      <input type="file" id="photoUpload" accept="image/*">
+      <br><br>
+      <canvas id="photoCanvas" style="border:1px solid #000;"></canvas>
+      <br><br>
+      <button id="photoResizeButton">Resize Photo</button>
+    </div>
+
+    <hr>
+
+    <!-- Signature Section (hidden by default) -->
+    <div id="signatureSection" style="display: none;">
+      <h3>Signature Upload</h3>
+      <input type="file" id="signatureUpload" accept="image/*">
+      <br><br>
+      <canvas id="signatureCanvas" style="border:1px solid #000;"></canvas>
+      <br><br>
+      <button id="signatureResizeButton">Resize Signature</button>
+    </div>
+
+    <!-- 
+      OLD CODE (Optional):
+      If you want to remove the original single-dropdown approach,
+      you can delete or comment out the lines below.
+    -->
+    <!--
     <select id="examPreset">
       <option value="300x300">Exam Example (300x300)</option>
-      <option value="350x400">Exam A (350x400)</option>
-      <option value="200x230">Exam B (200x230)</option>
-      <option value="140x60">Signature (140x60)</option>
-
-
-      <!-- We will add more exam options later -->
     </select>
     <br><br>
-    <!-- File upload input -->
     <input type="file" id="upload" accept="image/*">
     <br><br>
-    <!-- Canvas to display the image -->
-    <canvas id="photoCanvas" style="border:1px solid #000;"></canvas>
+    <canvas id="oldCanvas" style="border:1px solid #000;"></canvas>
     <br><br>
     <button id="resizeButton">Resize Image</button>
+    -->
+
     <script src="script.js"></script>
   </body>
 </html>
