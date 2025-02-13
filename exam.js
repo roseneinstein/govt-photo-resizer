@@ -9,12 +9,26 @@ console.log("Exam name from URL:", examNameParam);
 fetch('exams.json')
   .then(response => response.json())
   .then(examsData => {
+    // 3) Find the exam that matches examNameParam
     const selectedExam = examsData.find(e => e.name === examNameParam);
+
     if (!selectedExam) {
+      // If no match, show an error
       document.getElementById("examName").textContent = "Exam not found!";
       return;
     }
+
+    // 4) Display the exam name
     document.getElementById("examName").textContent = selectedExam.name;
+
+    // 5) Display the resizing details
+    document.getElementById("photoSize").textContent = `${selectedExam.photoWidth} x ${selectedExam.photoHeight} px`;
+    document.getElementById("photoMaxSize").textContent = selectedExam.maxFileSizeKB;
+
+    document.getElementById("signatureSize").textContent = `${selectedExam.signatureWidth} x ${selectedExam.signatureHeight} px`;
+    document.getElementById("signatureMaxSize").textContent = selectedExam.maxFileSizeKB;
+
+    // Store exam data globally
     window.selectedExam = selectedExam;
   })
   .catch(error => {
@@ -23,103 +37,110 @@ fetch('exams.json')
   });
 
 // ====================
-// Photo Logic
+// Photo Upload Logic
 // ====================
 const photoUploadInput = document.getElementById("photoUpload");
 const photoCanvas = document.getElementById("photoCanvas");
 const photoCtx = photoCanvas.getContext("2d");
-const photoResizeBtn = document.getElementById("photoResizeButton");
-const photoDownloadBtn = document.getElementById("photoDownloadButton");
 
 photoUploadInput.addEventListener("change", function(e) {
-  loadAndDrawImage(e.target.files[0], photoCanvas, photoCtx);
+  handleImageUpload(e, photoCanvas, photoCtx);
 });
 
-photoResizeBtn.addEventListener("click", function() {
-  if (!window.selectedExam) {
-    alert("Exam info not loaded!");
-    return;
-  }
-  resizeAndCompress(photoCanvas, photoCtx, window.selectedExam.photoWidth, window.selectedExam.photoHeight, window.selectedExam.maxFileSizeKB);
-});
-
-photoDownloadBtn.addEventListener("click", function() {
-  downloadCompressedJPG(photoCanvas, "resized_photo.jpg", window.selectedExam.maxFileSizeKB);
+document.getElementById("photoResizeButton").addEventListener("click", function() {
+  processImage(photoCanvas, photoCtx, window.selectedExam.photoWidth, window.selectedExam.photoHeight, window.selectedExam.maxFileSizeKB);
 });
 
 // ====================
-// Signature Logic
+// Signature Upload Logic
 // ====================
 const signatureUploadInput = document.getElementById("signatureUpload");
 const signatureCanvas = document.getElementById("signatureCanvas");
 const signatureCtx = signatureCanvas.getContext("2d");
-const signatureResizeBtn = document.getElementById("signatureResizeButton");
-const signatureDownloadBtn = document.getElementById("signatureDownloadButton");
 
 signatureUploadInput.addEventListener("change", function(e) {
-  loadAndDrawImage(e.target.files[0], signatureCanvas, signatureCtx);
+  handleImageUpload(e, signatureCanvas, signatureCtx);
 });
 
-signatureResizeBtn.addEventListener("click", function() {
-  if (!window.selectedExam) {
-    alert("Exam info not loaded!");
-    return;
-  }
-  resizeAndCompress(signatureCanvas, signatureCtx, window.selectedExam.signatureWidth, window.selectedExam.signatureHeight, window.selectedExam.maxFileSizeKB);
-});
-
-signatureDownloadBtn.addEventListener("click", function() {
-  downloadCompressedJPG(signatureCanvas, "resized_signature.jpg", window.selectedExam.maxFileSizeKB);
+document.getElementById("signatureResizeButton").addEventListener("click", function() {
+  processImage(signatureCanvas, signatureCtx, window.selectedExam.signatureWidth, window.selectedExam.signatureHeight, window.selectedExam.maxFileSizeKB);
 });
 
 // ====================
 // Helper Functions
 // ====================
-function loadAndDrawImage(file, canvas, context) {
+function handleImageUpload(event, canvas, ctx) {
+  const file = event.target.files[0];
   const reader = new FileReader();
+
   reader.onload = function(event) {
     const img = new Image();
     img.onload = function() {
       canvas.width = img.width;
       canvas.height = img.height;
-      context.drawImage(img, 0, 0);
+      ctx.drawImage(img, 0, 0);
     };
     img.src = event.target.result;
   };
-  if (file) reader.readAsDataURL(file);
+
+  if (file) {
+    reader.readAsDataURL(file);
+  }
 }
 
-function resizeAndCompress(canvas, context, targetWidth, targetHeight, maxKB) {
+function processImage(canvas, context, targetWidth, targetHeight, maxKB) {
+  if (!window.selectedExam) {
+    alert("Exam info not loaded!");
+    return;
+  }
+
+  resizeCanvas(canvas, context, targetWidth, targetHeight);
+  compressCanvasToMaxKB(canvas, context, maxKB);
+}
+
+function resizeCanvas(canvas, context, targetWidth, targetHeight) {
   const tempCanvas = document.createElement("canvas");
   const tempCtx = tempCanvas.getContext("2d");
   tempCanvas.width = targetWidth;
   tempCanvas.height = targetHeight;
-  
+
   tempCtx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, targetWidth, targetHeight);
+
   canvas.width = targetWidth;
   canvas.height = targetHeight;
   context.drawImage(tempCanvas, 0, 0);
 }
 
-function downloadCompressedJPG(canvas, filename, maxKB) {
+function compressCanvasToMaxKB(canvas, context, maxKB) {
   let quality = 1.0;
+  let dataUrl = canvas.toDataURL("image/jpeg", quality);
+  let sizeKB = dataURLSizeInKB(dataUrl);
 
-  function attemptDownload() {
-    canvas.toBlob((blob) => {
-      if (blob.size / 1024 > maxKB && quality > 0.1) {
-        quality -= 0.05;
-        attemptDownload();
-      } else {
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = filename;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        alert(`Downloaded file size: ${(blob.size / 1024).toFixed(1)} KB (under ${maxKB} KB)`);
-      }
-    }, "image/jpeg", quality);
+  while (sizeKB > maxKB && quality > 0.1) {
+    quality -= 0.1;
+    dataUrl = canvas.toDataURL("image/jpeg", quality);
+    sizeKB = dataURLSizeInKB(dataUrl);
   }
 
-  attemptDownload();
+  if (sizeKB > maxKB) {
+    alert(`We couldn't compress it enough! It's still ${sizeKB.toFixed(1)} KB.`);
+  } else {
+    downloadImage(dataUrl);
+    alert(`Success! Final size: ${sizeKB.toFixed(1)} KB (under ${maxKB} KB)`);
+  }
+}
+
+function dataURLSizeInKB(dataUrl) {
+  const base64String = dataUrl.split(",")[1];
+  const sizeInBytes = (base64String.length * 3) / 4;
+  return sizeInBytes / 1024;
+}
+
+function downloadImage(dataUrl) {
+  const link = document.createElement("a");
+  link.href = dataUrl;
+  link.download = "resized_image.jpg";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 }
