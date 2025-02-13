@@ -40,7 +40,8 @@ photoResizeBtn.addEventListener("click", function() {
     alert("Exam info not loaded!");
     return;
   }
-  resizeAndCompress(photoCanvas, photoCtx, window.selectedExam.photoWidth, window.selectedExam.photoHeight, window.selectedExam.maxFileSizeKB);
+  resizeAndCompress(photoCanvas, photoCtx, window.selectedExam.photoWidth, window.selectedExam.photoHeight);
+  photoDownloadBtn.disabled = false;
 });
 
 photoDownloadBtn.addEventListener("click", function() {
@@ -65,7 +66,8 @@ signatureResizeBtn.addEventListener("click", function() {
     alert("Exam info not loaded!");
     return;
   }
-  resizeAndCompress(signatureCanvas, signatureCtx, window.selectedExam.signatureWidth, window.selectedExam.signatureHeight, window.selectedExam.maxFileSizeKB);
+  resizeAndCompress(signatureCanvas, signatureCtx, window.selectedExam.signatureWidth, window.selectedExam.signatureHeight);
+  signatureDownloadBtn.disabled = false;
 });
 
 signatureDownloadBtn.addEventListener("click", function() {
@@ -83,13 +85,14 @@ function loadAndDrawImage(file, canvas, context) {
       canvas.width = img.width;
       canvas.height = img.height;
       context.drawImage(img, 0, 0);
+      canvas.classList.remove("d-none"); // Show canvas after loading
     };
     img.src = event.target.result;
   };
   if (file) reader.readAsDataURL(file);
 }
 
-function resizeAndCompress(canvas, context, targetWidth, targetHeight, maxKB) {
+function resizeAndCompress(canvas, context, targetWidth, targetHeight) {
   const tempCanvas = document.createElement("canvas");
   const tempCtx = tempCanvas.getContext("2d");
   tempCanvas.width = targetWidth;
