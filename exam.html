@@ -16,9 +16,28 @@
   <body class="bg-light">
     <div class="container my-4">
       <h1 class="text-center mb-4">Exam Details</h1>
-      <div id="examContent" class="list-group"></div>
+      
+      <!-- Exam Name (Updated Dynamically) -->
+      <h2 id="examName" class="text-center">Loading Exam...</h2>
+
+      <!-- Upload Photo Section -->
+      <div class="card p-3 mt-3">
+        <h4>Upload Photo</h4>
+        <input type="file" id="photoUpload" accept="image/*" class="form-control mb-2">
+        <canvas id="photoCanvas" class="border mb-2"></canvas>
+        <button id="photoResizeButton" class="btn btn-primary">Resize Photo</button>
+      </div>
+
+      <!-- Upload Signature Section -->
+      <div class="card p-3 mt-3">
+        <h4>Upload Signature</h4>
+        <input type="file" id="signatureUpload" accept="image/*" class="form-control mb-2">
+        <canvas id="signatureCanvas" class="border mb-2"></canvas>
+        <button id="signatureResizeButton" class="btn btn-primary">Resize Signature</button>
+      </div>
     </div>
 
+    <!-- JavaScript -->
     <script src="exam.js"></script>
   </body>
 </html>
