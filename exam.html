@@ -10,32 +10,15 @@
       integrity="sha384-ENjdO4Dr2bkBIFxQpeyn6mdf1OzZ5kN0uVScCjaF5C9yIgYyQvQqA6JTc3Fm9CZj"
       crossorigin="anonymous"
     >
+    <link rel="stylesheet" href="styles.css">
   </head>
 
   <body class="bg-light">
     <div class="container my-4">
-      <h1 id="examName" class="text-center mb-4">Exam Name Goes Here</h1>
-
-      <!-- Photo Section -->
-      <div id="photoSection" class="card shadow p-3 mb-4">
-        <h3>Photo Upload</h3>
-        <input type="file" id="photoUpload" accept="image/*" class="form-control my-2">
-        <canvas id="photoCanvas" style="border:1px solid #000;"></canvas>
-        <br>
-        <button id="photoResizeButton" class="btn btn-success mt-3">Resize Photo</button>
-      </div>
-
-      <!-- Signature Section -->
-      <div id="signatureSection" class="card shadow p-3 mb-4">
-        <h3>Signature Upload</h3>
-        <input type="file" id="signatureUpload" accept="image/*" class="form-control my-2">
-        <canvas id="signatureCanvas" style="border:1px solid #000;"></canvas>
-        <br>
-        <button id="signatureResizeButton" class="btn btn-warning mt-3">Resize Signature</button>
-      </div>
+      <h1 class="text-center mb-4">Exam Details</h1>
+      <div id="examContent" class="list-group"></div>
     </div>
 
-    <!-- Important: We load exam.js here -->
     <script src="exam.js"></script>
   </body>
 </html>
