@@ -4,12 +4,61 @@ console.log("Welcome to Govt Exam Photo Resizer!");
 let selectedExam = null;
 
 /**
- * For now, this does nothing except tell the user no exams are loaded.
- * In Step 2, we'll replace this with code that reads from exams.json.
+ * Step 2: Fetch the exams from exams.json and display them.
  */
-function displayUpcomingExams() {
+function fetchExams() {
+  fetch('exams.json')
+    .then(response => response.json())
+    .then(examsData => {
+      // examsData is the array of exams from exams.json
+      displayUpcomingExams(examsData);
+    })
+    .catch(error => {
+      console.error("Error fetching exams.json:", error);
+      // If there's an error, show a message on the page
+      const examListDiv = document.getElementById("examList");
+      examListDiv.innerHTML = "Could not load exams. Please try again later.";
+    });
+}
+
+/**
+ * Display the exams as buttons, just like before.
+ * But now we receive the list of exams as 'examsData'.
+ */
+function displayUpcomingExams(examsData) {
   const examListDiv = document.getElementById("examList");
-  examListDiv.innerHTML = "No exams loaded yet. (We'll fix this soon!)";
+  examListDiv.innerHTML = ""; // Clear any old content
+
+  // If there are no exams in the file, show a message
+  if (!examsData || examsData.length === 0) {
+    examListDiv.innerHTML = "No exams found in exams.json!";
+    return;
+  }
+
+  // Create a button for each exam
+  examsData.forEach((exam) => {
+    const examButton = document.createElement("button");
+    examButton.textContent = exam.name + " (" + exam.date + ")";
+
+    examButton.addEventListener("click", function() {
+      // Store the selected exam in our global variable
+      selectedExam = exam;
+
+      // Show the photo and signature sections
+      document.getElementById("photoSection").style.display = "block";
+      document.getElementById("signatureSection").style.display = "block";
+
+      // Clear any existing images on the canvases
+      clearCanvas("photoCanvas");
+      clearCanvas("signatureCanvas");
+
+      console.log("Selected exam:", exam);
+    });
+
+    // Add the button to the page
+    examListDiv.appendChild(examButton);
+    examListDiv.appendChild(document.createElement("br"));
+  });
 }
 
 /**
@@ -32,21 +81,18 @@ function resizeCanvas(canvas, context, targetWidth, targetHeight) {
   tempCanvas.width = targetWidth;
   tempCanvas.height = targetHeight;
 
+  // Copy the image from the original canvas into tempCanvas, resizing it
   tempCtx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, targetWidth, targetHeight);
 
+  // Update the original canvas to the new size and draw the temp image onto it
   canvas.width = targetWidth;
   canvas.height = targetHeight;
   context.drawImage(tempCanvas, 0, 0);
 }
 
-// Display exams when the page loads (currently shows "No exams loaded yet.")
-displayUpcomingExams();
-
-/* 
-  ---------------------------------------------------------
-  PHOTO UPLOAD & RESIZE
-  ---------------------------------------------------------
-*/
+// ====================
+// PHOTO UPLOAD & RESIZE
+// ====================
 const photoUploadInput = document.getElementById("photoUpload");
 const photoCanvas = document.getElementById("photoCanvas");
 const photoCtx = photoCanvas.getContext("2d");
@@ -74,21 +120,19 @@ photoUploadInput.addEventListener("change", function(e) {
 const photoResizeBtn = document.getElementById("photoResizeButton");
 photoResizeBtn.addEventListener("click", function() {
   if (!selectedExam) {
-    alert("No exam selected yet! We'll fix this in the next step.");
+    alert("Please select an exam first!");
     return;
   }
 
-  // In the future, we'll get photoWidth/photoHeight from selectedExam
-  const targetWidth = 300;
-  const targetHeight = 400;
+  // Use the exam's photo dimensions from exams.json
+  const targetWidth = selectedExam.photoWidth;
+  const targetHeight = selectedExam.photoHeight;
   resizeCanvas(photoCanvas, photoCtx, targetWidth, targetHeight);
 });
 
-/* 
-  ---------------------------------------------------------
-  SIGNATURE UPLOAD & RESIZE
-  ---------------------------------------------------------
-*/
+// =======================
+// SIGNATURE UPLOAD & RESIZE
+// =======================
 const signatureUploadInput = document.getElementById("signatureUpload");
 const signatureCanvas = document.getElementById("signatureCanvas");
 const signatureCtx = signatureCanvas.getContext("2d");
@@ -116,12 +160,15 @@ signatureUploadInput.addEventListener("change", function(e) {
 const signatureResizeBtn = document.getElementById("signatureResizeButton");
 signatureResizeBtn.addEventListener("click", function() {
   if (!selectedExam) {
-    alert("No exam selected yet! We'll fix this in the next step.");
+    alert("Please select an exam first!");
     return;
   }
 
-  // In the future, we'll get signatureWidth/signatureHeight from selectedExam
-  const targetWidth = 140;
-  const targetHeight = 60;
+  // Use the exam's signature dimensions from exams.json
+  const targetWidth = selectedExam.signatureWidth;
+  const targetHeight = selectedExam.signatureHeight;
   resizeCanvas(signatureCanvas, signatureCtx, targetWidth, targetHeight);
 });
+
+// Finally, call fetchExams() so we load the exam data from exams.json
+fetchExams();
