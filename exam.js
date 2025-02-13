@@ -99,56 +99,27 @@ function resizeAndCompress(canvas, context, targetWidth, targetHeight, maxKB) {
   canvas.width = targetWidth;
   canvas.height = targetHeight;
   context.drawImage(tempCanvas, 0, 0);
-
-  compressCanvasToMaxKB(canvas, context, maxKB);
-}
-
-function compressCanvasToMaxKB(canvas, context, maxKB) {
-  let quality = 1.0;
-  let dataUrl = canvas.toDataURL("image/jpeg", quality);
-  let sizeKB = dataURLSizeInKB(dataUrl);
-
-  while (sizeKB > maxKB && quality > 0.1) {
-    quality -= 0.05;
-    dataUrl = canvas.toDataURL("image/jpeg", quality);
-    sizeKB = dataURLSizeInKB(dataUrl);
-  }
-
-  alert(`Success! Final size: ${sizeKB.toFixed(1)} KB (under ${maxKB} KB)`);
-}
-
-function dataURLSizeInKB(dataUrl) {
-  const base64String = dataUrl.split(",")[1];
-  const sizeInBytes = (base64String.length * 3) / 4;
-  return sizeInBytes / 1024;
 }
 
 function downloadCompressedJPG(canvas, filename, maxKB) {
   let quality = 1.0;
-  let dataUrl = canvas.toDataURL("image/jpeg", quality);
-  let sizeKB = dataURLSizeInKB(dataUrl);
 
-  while (sizeKB > maxKB && quality > 0.1) {
-    quality -= 0.05;
-    dataUrl = canvas.toDataURL("image/jpeg", quality);
-    sizeKB = dataURLSizeInKB(dataUrl);
+  function attemptDownload() {
+    canvas.toBlob((blob) => {
+      if (blob.size / 1024 > maxKB && quality > 0.1) {
+        quality -= 0.05;
+        attemptDownload();
+      } else {
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        alert(`Downloaded file size: ${(blob.size / 1024).toFixed(1)} KB (under ${maxKB} KB)`);
+      }
+    }, "image/jpeg", quality);
   }
 
-  // Convert base64 to Blob to prevent file size increase
-  const byteString = atob(dataUrl.split(',')[1]);
-  const arrayBuffer = new ArrayBuffer(byteString.length);
-  const uint8Array = new Uint8Array(arrayBuffer);
-  for (let i = 0; i < byteString.length; i++) {
-    uint8Array[i] = byteString.charCodeAt(i);
-  }
-  const blob = new Blob([uint8Array], { type: 'image/jpeg' });
-
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-
-  alert(`Downloaded file should match final displayed size! Expected: ${sizeKB.toFixed(1)} KB`);
+  attemptDownload();
 }
