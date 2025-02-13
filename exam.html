@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Exam Details</title>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      integrity="sha384-ENjdO4Dr2bkBIFxQpeyn6mdf1OzZ5kN0uVScCjaF5C9yIgYyQvQqA6JTc3Fm9CZj"
+      crossorigin="anonymous"
+    >
+  </head>
+
+  <body class="bg-light">
+    <div class="container my-4">
+      <h1 id="examName" class="text-center mb-4">Exam Name Goes Here</h1>
+
+      <!-- Photo Section -->
+      <div id="photoSection" class="card shadow p-3 mb-4">
+        <h3>Photo Upload</h3>
+        <input type="file" id="photoUpload" accept="image/*" class="form-control my-2">
+        <canvas id="photoCanvas" style="border:1px solid #000;"></canvas>
+        <br>
+        <button id="photoResizeButton" class="btn btn-success mt-3">Resize Photo</button>
+      </div>
+
+      <!-- Signature Section -->
+      <div id="signatureSection" class="card shadow p-3 mb-4">
+        <h3>Signature Upload</h3>
+        <input type="file" id="signatureUpload" accept="image/*" class="form-control my-2">
+        <canvas id="signatureCanvas" style="border:1px solid #000;"></canvas>
+        <br>
+        <button id="signatureResizeButton" class="btn btn-warning mt-3">Resize Signature</button>
+      </div>
+    </div>
+
+    <!-- We'll add a new script for exam logic soon -->
+    <script src="exam.js"></script>
+  </body>
+</html>
