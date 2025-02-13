@@ -1,7 +1,61 @@
-// Log a welcome message to ensure the file is working.
+// A list of upcoming exams, each with a name, date, and dimensions
+const upcomingExams = [
+  {
+    name: "IIT-JEE 2025",
+    date: "2025-05-10",
+    photoWidth: 300,
+    photoHeight: 400,
+    signatureWidth: 140,
+    signatureHeight: 60
+  },
+  {
+    name: "NEET 2025",
+    date: "2025-05-15",
+    photoWidth: 350,
+    photoHeight: 450,
+    signatureWidth: 160,
+    signatureHeight: 80
+  }
+  // Add more exams as needed
+];
+
 console.log("Welcome to Govt Exam Photo Resizer!");
 
-// Get the HTML elements
+// This function will display the upcoming exams as buttons
+function displayUpcomingExams() {
+  const examListDiv = document.getElementById("examList");
+  // Clear anything already inside examListDiv
+  examListDiv.innerHTML = "";
+
+  // Go through each exam in our array
+  upcomingExams.forEach((exam) => {
+    // Create a button for this exam
+    const examButton = document.createElement("button");
+    examButton.textContent = exam.name + " (" + exam.date + ")";
+
+    // When the user clicks the button, just show an alert for now
+    examButton.addEventListener("click", function() {
+      alert("You selected: " + exam.name);
+    });
+
+    // Add the button to the examListDiv
+    examListDiv.appendChild(examButton);
+    examListDiv.appendChild(document.createElement("br"));
+  });
+}
+
+// Call the function to display the upcoming exams when the page loads
+displayUpcomingExams();
+
+/* 
+  ---------------------------------------------------------
+  ORIGINAL IMAGE UPLOAD/RESIZE CODE (for reference)
+  ---------------------------------------------------------
+  We'll later adapt or remove this code when we create a
+  dedicated photo/signature resizing step for each exam.
+*/
+
+// Get the HTML elements for the original dropdown-based approach
 const uploadInput = document.getElementById("upload");
 const canvas = document.getElementById("photoCanvas");
 const ctx = canvas.getContext("2d");
@@ -31,9 +85,11 @@ uploadInput.addEventListener("change", function(e) {
 // When the "Resize Image" button is clicked...
 const resizeButton = document.getElementById("resizeButton");
 resizeButton.addEventListener("click", function() {
-  // Get the selected exam preset
-  const preset = document.getElementById("examPreset").value;
-  const [targetWidth, targetHeight] = preset.split("x").map(Number);
+  // If there's no dropdown, this won't do much, but let's keep it for now
+  const presetSelect = document.getElementById("examPreset");
+  if (!presetSelect) return;
+
+  const [targetWidth, targetHeight] = presetSelect.value.split("x").map(Number);
 
   // Create a temporary canvas to resize the image
   const tempCanvas = document.createElement("canvas");
