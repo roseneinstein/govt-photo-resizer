@@ -16,15 +16,11 @@
 
     <div class="container mt-4">
         <h2 class="text-center">Upload Your Photo & Signature</h2>
-        <p class="text-muted text-center">
-            Please upload your **photo** and **signature** as per the required dimensions. The system will **automatically resize and compress** them.
-        </p>
-        
+
         <!-- Photo Upload Section -->
         <div class="mb-3">
             <label class="form-label"><strong>Upload Photo:</strong></label>
             <input type="file" id="photoUpload" class="form-control">
-            <small class="text-muted">Required Size: <span id="photoSize"></span>, Max File Size: <span id="photoMaxSize"></span> KB</small>
             <canvas id="photoCanvas" class="mt-2 border"></canvas>
             <button id="photoResizeButton" class="btn btn-primary mt-2">Resize & Download</button>
         </div>
@@ -33,7 +29,6 @@
         <div class="mb-3">
             <label class="form-label"><strong>Upload Signature:</strong></label>
             <input type="file" id="signatureUpload" class="form-control">
-            <small class="text-muted">Required Size: <span id="signatureSize"></span>, Max File Size: <span id="signatureMaxSize"></span> KB</small>
             <canvas id="signatureCanvas" class="mt-2 border"></canvas>
             <button id="signatureResizeButton" class="btn btn-primary mt-2">Resize & Download</button>
         </div>
