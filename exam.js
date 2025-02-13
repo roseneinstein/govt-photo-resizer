@@ -13,15 +13,11 @@ fetch('exams.json')
     const selectedExam = examsData.find(e => e.name === examNameParam);
 
     if (!selectedExam) {
-      // If no match, show an error
       document.getElementById("examName").textContent = "Exam not found!";
       return;
     }
 
-    // 4) Display the exam name
     document.getElementById("examName").textContent = selectedExam.name;
-
-    // 5) We'll store the exam data in a global variable
     window.selectedExam = selectedExam;
   })
   .catch(error => {
@@ -35,28 +31,13 @@ fetch('exams.json')
 const photoUploadInput = document.getElementById("photoUpload");
 const photoCanvas = document.getElementById("photoCanvas");
 const photoCtx = photoCanvas.getContext("2d");
+const photoDownloadBtn = document.getElementById("photoDownloadButton");
 
 photoUploadInput.addEventListener("change", function(e) {
-  const file = e.target.files[0];
-  const reader = new FileReader();
-
-  reader.onload = function(event) {
-    const img = new Image();
-    img.onload = function() {
-      photoCanvas.width = img.width;
-      photoCanvas.height = img.height;
-      photoCtx.drawImage(img, 0, 0);
-    };
-    img.src = event.target.result;
-  };
-
-  if (file) {
-    reader.readAsDataURL(file);
-  }
+  loadImageToCanvas(e.target.files[0], photoCanvas, photoCtx);
 });
 
-const photoResizeBtn = document.getElementById("photoResizeButton");
-photoResizeBtn.addEventListener("click", function() {
+document.getElementById("photoResizeButton").addEventListener("click", function() {
   if (!window.selectedExam) {
     alert("Exam info not loaded!");
     return;
@@ -64,6 +45,11 @@ photoResizeBtn.addEventListener("click", function() {
 
   resizeCanvas(photoCanvas, photoCtx, window.selectedExam.photoWidth, window.selectedExam.photoHeight);
   compressCanvasToMaxKB(photoCanvas, photoCtx, window.selectedExam.maxFileSizeKB);
+  photoDownloadBtn.disabled = false;
+});
+
+photoDownloadBtn.addEventListener("click", function() {
+  downloadCanvasAsJPG(photoCanvas, "resized_photo.jpg");
 });
 
 // ====================
@@ -72,28 +58,13 @@ photoResizeBtn.addEventListener("click", function() {
 const signatureUploadInput = document.getElementById("signatureUpload");
 const signatureCanvas = document.getElementById("signatureCanvas");
 const signatureCtx = signatureCanvas.getContext("2d");
+const signatureDownloadBtn = document.getElementById("signatureDownloadButton");
 
 signatureUploadInput.addEventListener("change", function(e) {
-  const file = e.target.files[0];
-  const reader = new FileReader();
-
-  reader.onload = function(event) {
-    const img = new Image();
-    img.onload = function() {
-      signatureCanvas.width = img.width;
-      signatureCanvas.height = img.height;
-      signatureCtx.drawImage(img, 0, 0);
-    };
-    img.src = event.target.result;
-  };
-
-  if (file) {
-    reader.readAsDataURL(file);
-  }
+  loadImageToCanvas(e.target.files[0], signatureCanvas, signatureCtx);
 });
 
-const signatureResizeBtn = document.getElementById("signatureResizeButton");
-signatureResizeBtn.addEventListener("click", function() {
+document.getElementById("signatureResizeButton").addEventListener("click", function() {
   if (!window.selectedExam) {
     alert("Exam info not loaded!");
     return;
@@ -101,11 +72,33 @@ signatureResizeBtn.addEventListener("click", function() {
 
   resizeCanvas(signatureCanvas, signatureCtx, window.selectedExam.signatureWidth, window.selectedExam.signatureHeight);
   compressCanvasToMaxKB(signatureCanvas, signatureCtx, window.selectedExam.maxFileSizeKB);
+  signatureDownloadBtn.disabled = false;
+});
+
+signatureDownloadBtn.addEventListener("click", function() {
+  downloadCanvasAsJPG(signatureCanvas, "resized_signature.jpg");
 });
 
 // ====================
 // Helper Functions
 // ====================
+function loadImageToCanvas(file, canvas, context) {
+  const reader = new FileReader();
+  reader.onload = function(event) {
+    const img = new Image();
+    img.onload = function() {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      context.drawImage(img, 0, 0);
+    };
+    img.src = event.target.result;
+  };
+
+  if (file) {
+    reader.readAsDataURL(file);
+  }
+}
+
 function resizeCanvas(canvas, context, targetWidth, targetHeight) {
   const tempCanvas = document.createElement("canvas");
   const tempCtx = tempCanvas.getContext("2d");
@@ -143,6 +136,13 @@ function compressCanvasToMaxKB(canvas, context, maxKB) {
 
     alert(`Success! Final size: ${sizeKB.toFixed(1)} KB (under ${maxKB} KB)`);
   }
+}
+
+function downloadCanvasAsJPG(canvas, filename) {
+  const link = document.createElement("a");
+  link.href = canvas.toDataURL("image/jpeg", 1.0);
+  link.download = filename;
+  link.click();
 }
 
 function dataURLSizeInKB(dataUrl) {
