@@ -1,33 +1,37 @@
+/* General styling */
 body {
-    background-image: url('background.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    font-size: 1.5em; /* 1.5 times default size */
+    background-color: #f8f9fa; /* Light background */
 }
 
-/* Add a semi-transparent background to text containers */
-.container {
-    background: rgba(255, 255, 255, 0.6); /* White background with 60% opacity */
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+/* Center align headings */
+h1, h4 {
+    text-align: center;
 }
 
-/* Make headings slightly more visible */
-h1, h2, h3 {
-    background: rgba(255, 255, 255, 0.7);
-    padding: 10px;
-    display: inline-block;
-    border-radius: 5px;
-}
-
-/* Improve button visibility */
-.btn {
-    background-color: rgba(0, 123, 255, 0.8); /* Slightly transparent blue */
-    border: none;
+/* Style for blue "Resize" button */
+.blue-box {
+    background-color: #007bff; /* Bootstrap Primary Blue */
     color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
 }
 
-.btn:hover {
-    background-color: rgba(0, 123, 255, 1); /* Fully solid blue on hover */
+/* Style for green "Download" button */
+.green-box {
+    background-color: #28a745; /* Bootstrap Success Green */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+}
+
+/* Add spacing between buttons */
+button {
+    margin-top: 10px;
 }
