@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Govt Exam Photo Resizer</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <h1>Govt Exam Photo Resizer</h1>
+    <p>Upload your photo below to resize it for your exam requirements.</p>
+    <!-- Dropdown to choose exam preset -->
+    <select id="examPreset">
+      <option value="300x300">Exam Example (300x300)</option>
+      <!-- We will add more exam options later -->
+    </select>
+    <br><br>
+    <!-- File upload input -->
+    <input type="file" id="upload" accept="image/*">
+    <br><br>
+    <!-- Canvas to display the image -->
+    <canvas id="photoCanvas" style="border:1px solid #000;"></canvas>
+    <br><br>
+    <button id="resizeButton">Resize Image</button>
+    <script src="script.js"></script>
+  </body>
+</html>
