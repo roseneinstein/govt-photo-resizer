@@ -40,11 +40,30 @@ photoResizeBtn.addEventListener("click", function() {
     alert("Exam info not loaded!");
     return;
   }
-  resizeAndCompress(photoCanvas, photoCtx, window.selectedExam.photoWidth, window.selectedExam.photoHeight, window.selectedExam.minFileSizeKB, window.selectedExam.maxFileSizeKB, photoDownloadBtn);
+  // Use photoMinKB and photoMaxKB for photo
+  resizeAndCompress(
+    photoCanvas,
+    photoCtx,
+    window.selectedExam.photoWidth,
+    window.selectedExam.photoHeight,
+    window.selectedExam.photoMinKB,
+    window.selectedExam.photoMaxKB,
+    photoDownloadBtn
+  );
 });
 
 photoDownloadBtn.addEventListener("click", function() {
-  downloadCompressedJPG(photoCanvas, "resized_photo.jpg", window.selectedExam.minFileSizeKB, window.selectedExam.maxFileSizeKB);
+  if (!window.selectedExam) {
+    alert("Exam info not loaded!");
+    return;
+  }
+  // Use photoMinKB and photoMaxKB for photo
+  downloadCompressedJPG(
+    photoCanvas,
+    "resized_photo.jpg",
+    window.selectedExam.photoMinKB,
+    window.selectedExam.photoMaxKB
+  );
 });
 
 // ====================
@@ -65,11 +84,30 @@ signatureResizeBtn.addEventListener("click", function() {
     alert("Exam info not loaded!");
     return;
   }
-  resizeAndCompress(signatureCanvas, signatureCtx, window.selectedExam.signatureWidth, window.selectedExam.signatureHeight, window.selectedExam.minFileSizeKB, window.selectedExam.maxFileSizeKB, signatureDownloadBtn);
+  // Use signatureMinKB and signatureMaxKB for signature
+  resizeAndCompress(
+    signatureCanvas,
+    signatureCtx,
+    window.selectedExam.signatureWidth,
+    window.selectedExam.signatureHeight,
+    window.selectedExam.signatureMinKB,
+    window.selectedExam.signatureMaxKB,
+    signatureDownloadBtn
+  );
 });
 
 signatureDownloadBtn.addEventListener("click", function() {
-  downloadCompressedJPG(signatureCanvas, "resized_signature.jpg", window.selectedExam.minFileSizeKB, window.selectedExam.maxFileSizeKB);
+  if (!window.selectedExam) {
+    alert("Exam info not loaded!");
+    return;
+  }
+  // Use signatureMinKB and signatureMaxKB for signature
+  downloadCompressedJPG(
+    signatureCanvas,
+    "resized_signature.jpg",
+    window.selectedExam.signatureMinKB,
+    window.selectedExam.signatureMaxKB
+  );
 });
 
 // ====================
