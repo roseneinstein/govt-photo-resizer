@@ -4,29 +4,35 @@
     "date": "Last day to apply :18/02/2025",
     "photoWidth": 500,
     "photoHeight": 500,
+    "photoMinKB": 20,
+    "photoMaxKB": 300,
     "signatureWidth": 400,
     "signatureHeight": 400,
-    "minFileSizeKB": 20,
-    "maxFileSizeKB": 300
+    "signatureMinKB": 20,
+    "signatureMaxKB": 300
   },
   {
     "name": "IIT-JEE 2025",
     "date": "last day to apply :25/03/2025",
     "photoWidth": 300,
     "photoHeight": 400,
+    "photoMinKB": 20,
+    "photoMaxKB": 50,
     "signatureWidth": 140,
     "signatureHeight": 60,
-    "minFileSizeKB": 20,
-    "maxFileSizeKB": 50
+    "signatureMinKB": 20,
+    "signatureMaxKB": 50
   },
   {
     "name": "NEET 2025",
     "date": "2025-05-15",
     "photoWidth": 350,
     "photoHeight": 450,
+    "photoMinKB": 20,
+    "photoMaxKB": 100,
     "signatureWidth": 160,
     "signatureHeight": 80,
-    "minFileSizeKB": 20,
-    "maxFileSizeKB": 100
+    "signatureMinKB": 20,
+    "signatureMaxKB": 100
   }
 ]
