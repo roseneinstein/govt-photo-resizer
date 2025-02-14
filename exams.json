@@ -12,16 +12,16 @@
     "signatureMaxKB": 300
   },
   {
-    "name": "IIT-JEE 2025",
-    "date": "last day to apply :25/03/2025",
-    "photoWidth": 300,
-    "photoHeight": 400,
-    "photoMinKB": 50,
+    "name": "UPSC IES/ISS 2025",
+    "date": "last day to apply :4/03/2025",
+    "photoWidth": 500,
+    "photoHeight": 500,
+    "photoMinKB": 20,
     "photoMaxKB": 300,
-    "signatureWidth": 600,
-    "signatureHeight": 550,
+    "signatureWidth": 500,
+    "signatureHeight": 500,
     "signatureMinKB": 20,
-    "signatureMaxKB": 50
+    "signatureMaxKB": 300
   },
   {
     "name": "NEET 2025",
