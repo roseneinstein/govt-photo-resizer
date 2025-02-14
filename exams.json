@@ -24,6 +24,18 @@
     "signatureMaxKB": 300
   },
   {
+    "name": "India Post GDS 2025",
+    "date": "Last day to apply :3/03/2025",
+    "photoWidth": 500,
+    "photoHeight": 500,
+    "photoMinKB": 5,
+    "photoMaxKB": 50,
+    "signatureWidth": 500,
+    "signatureHeight": 500,
+    "signatureMinKB": 2,
+    "signatureMaxKB": 20
+  },
+  {
     "name": "RRB Group D 2025",
     "date": "Last day to apply : 23/02/2025",
     "photoWidth": 200,
