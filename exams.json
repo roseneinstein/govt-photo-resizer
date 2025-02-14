@@ -18,8 +18,8 @@
     "photoHeight": 400,
     "photoMinKB": 50,
     "photoMaxKB": 300,
-    "signatureWidth": 500,
-    "signatureHeight": 350,
+    "signatureWidth": 600,
+    "signatureHeight": 550,
     "signatureMinKB": 20,
     "signatureMaxKB": 50
   },
