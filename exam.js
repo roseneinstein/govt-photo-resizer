@@ -22,7 +22,7 @@ fetch('exams.json')
       document.getElementById("examName").textContent = "Exam not found!";
       return;
     }
-    document.getElementById("examName").textContent = selectedExam.name;
+    document.getElementById("examName").textContent = selectedExam.name;  // Keeps the exam name in English
     window.selectedExam = selectedExam;
   })
   .catch(error => {
@@ -34,13 +34,18 @@ fetch('exams.json')
 // Photo Logic
 // ====================
 const photoUploadInput = document.getElementById("photoUpload");
+const photoFileName = document.getElementById("photoFileName"); // Display file name
 const photoCanvas = document.getElementById("photoCanvas");
 const photoCtx = photoCanvas.getContext("2d");
 const photoResizeBtn = document.getElementById("photoResizeButton");
 const photoDownloadBtn = document.getElementById("photoDownloadButton");
 
 photoUploadInput.addEventListener("change", function(e) {
-  loadAndDrawImage(e.target.files[0], photoCanvas, photoCtx);
+  const file = e.target.files[0];
+  if (file) {
+    photoFileName.textContent = file.name; // Show file name
+  }
+  loadAndDrawImage(file, photoCanvas, photoCtx);
   photoResizeBtn.disabled = false; // Enable resize button after file is uploaded
 });
 
@@ -77,13 +82,18 @@ photoDownloadBtn.addEventListener("click", function() {
 // Signature Logic
 // ====================
 const signatureUploadInput = document.getElementById("signatureUpload");
+const signatureFileName = document.getElementById("signatureFileName"); // Display file name
 const signatureCanvas = document.getElementById("signatureCanvas");
 const signatureCtx = signatureCanvas.getContext("2d");
 const signatureResizeBtn = document.getElementById("signatureResizeButton");
 const signatureDownloadBtn = document.getElementById("signatureDownloadButton");
 
 signatureUploadInput.addEventListener("change", function(e) {
-  loadAndDrawImage(e.target.files[0], signatureCanvas, signatureCtx);
+  const file = e.target.files[0];
+  if (file) {
+    signatureFileName.textContent = file.name; // Show file name
+  }
+  loadAndDrawImage(file, signatureCanvas, signatureCtx);
   signatureResizeBtn.disabled = false; // Enable resize button after file is uploaded
 });
 
@@ -170,47 +180,3 @@ function downloadCompressedJPG(canvas, filename, minKB, maxKB) {
   }
   attemptDownload();
 }
-
-// ====================
-// Drag and Drop Functionality (for the always-visible drop boxes)
-// ====================
-
-// Photo Drop Box Events
-const photoDropBox = document.getElementById('photoDropBox');
-photoDropBox.addEventListener('dragover', function(e) {
-  e.preventDefault();
-  photoDropBox.classList.add('active');
-});
-photoDropBox.addEventListener('dragleave', function(e) {
-  e.preventDefault();
-  photoDropBox.classList.remove('active');
-});
-photoDropBox.addEventListener('drop', function(e) {
-  e.preventDefault();
-  photoDropBox.classList.remove('active');
-  const file = e.dataTransfer.files[0];
-  if (file) {
-    loadAndDrawImage(file, photoCanvas, photoCtx);
-    photoResizeBtn.disabled = false; // Enable resize button when image is dropped
-  }
-});
-
-// Signature Drop Box Events
-const signatureDropBox = document.getElementById('signatureDropBox');
-signatureDropBox.addEventListener('dragover', function(e) {
-  e.preventDefault();
-  signatureDropBox.classList.add('active');
-});
-signatureDropBox.addEventListener('dragleave', function(e) {
-  e.preventDefault();
-  signatureDropBox.classList.remove('active');
-});
-signatureDropBox.addEventListener('drop', function(e) {
-  e.preventDefault();
-  signatureDropBox.classList.remove('active');
-  const file = e.dataTransfer.files[0];
-  if (file) {
-    loadAndDrawImage(file, signatureCanvas, signatureCtx);
-    signatureResizeBtn.disabled = false; // Enable resize button when image is dropped
-  }
-});
