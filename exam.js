@@ -170,46 +170,44 @@ function downloadCompressedJPG(canvas, filename, minKB, maxKB) {
 // Drag and Drop Functionality
 // ====================
 
-// For Photo Upload:
-const photoUploadContainer = document.querySelector('#photoUpload').parentElement;
+// Photo Drop Box Events
 const photoDropBox = document.getElementById('photoDropBox');
 
-photoUploadContainer.addEventListener('dragover', function(e) {
+photoDropBox.addEventListener('dragover', function(e) {
   e.preventDefault();
-  photoDropBox.style.display = 'flex';
+  photoDropBox.classList.add('active');
 });
 
-photoUploadContainer.addEventListener('dragleave', function(e) {
+photoDropBox.addEventListener('dragleave', function(e) {
   e.preventDefault();
-  photoDropBox.style.display = 'none';
+  photoDropBox.classList.remove('active');
 });
 
-photoUploadContainer.addEventListener('drop', function(e) {
+photoDropBox.addEventListener('drop', function(e) {
   e.preventDefault();
-  photoDropBox.style.display = 'none';
+  photoDropBox.classList.remove('active');
   const file = e.dataTransfer.files[0];
   if (file) {
     loadAndDrawImage(file, photoCanvas, photoCtx);
   }
 });
 
-// For Signature Upload:
-const signatureUploadContainer = document.querySelector('#signatureUpload').parentElement;
+// Signature Drop Box Events
 const signatureDropBox = document.getElementById('signatureDropBox');
 
-signatureUploadContainer.addEventListener('dragover', function(e) {
+signatureDropBox.addEventListener('dragover', function(e) {
   e.preventDefault();
-  signatureDropBox.style.display = 'flex';
+  signatureDropBox.classList.add('active');
 });
 
-signatureUploadContainer.addEventListener('dragleave', function(e) {
+signatureDropBox.addEventListener('dragleave', function(e) {
   e.preventDefault();
-  signatureDropBox.style.display = 'none';
+  signatureDropBox.classList.remove('active');
 });
 
-signatureUploadContainer.addEventListener('drop', function(e) {
+signatureDropBox.addEventListener('drop', function(e) {
   e.preventDefault();
-  signatureDropBox.style.display = 'none';
+  signatureDropBox.classList.remove('active');
   const file = e.dataTransfer.files[0];
   if (file) {
     loadAndDrawImage(file, signatureCanvas, signatureCtx);
