@@ -5,7 +5,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const examNameParam = urlParams.get("name");
 console.log("Exam name from URL:", examNameParam);
 
-// 2) Fetch exams.json
+// 2) Fetch exams.json and set selectedExam
 fetch('exams.json')
   .then(response => response.json())
   .then(examsData => {
@@ -57,7 +57,6 @@ photoDownloadBtn.addEventListener("click", function() {
     alert("Exam info not loaded!");
     return;
   }
-  // Use photoMinKB and photoMaxKB for photo
   downloadCompressedJPG(
     photoCanvas,
     "resized_photo.jpg",
@@ -101,7 +100,6 @@ signatureDownloadBtn.addEventListener("click", function() {
     alert("Exam info not loaded!");
     return;
   }
-  // Use signatureMinKB and signatureMaxKB for signature
   downloadCompressedJPG(
     signatureCanvas,
     "resized_signature.jpg",
@@ -165,6 +163,55 @@ function downloadCompressedJPG(canvas, filename, minKB, maxKB) {
       }
     }, "image/jpeg", quality);
   }
-
   attemptDownload();
 }
+
+// ====================
+// Drag and Drop Functionality
+// ====================
+
+// DRAG & DROP for Photo Upload
+const photoUploadContainer = document.querySelector('#photoUpload').parentElement;
+const photoDropBox = document.getElementById('photoDropBox');
+
+photoUploadContainer.addEventListener('dragover', function(e) {
+  e.preventDefault();
+  photoDropBox.style.display = 'flex';
+});
+
+photoUploadContainer.addEventListener('dragleave', function(e) {
+  e.preventDefault();
+  photoDropBox.style.display = 'none';
+});
+
+photoUploadContainer.addEventListener('drop', function(e) {
+  e.preventDefault();
+  photoDropBox.style.display = 'none';
+  const file = e.dataTransfer.files[0];
+  if (file) {
+    loadAndDrawImage(file, photoCanvas, photoCtx);
+  }
+});
+
+// DRAG & DROP for Signature Upload
+const signatureUploadContainer = document.querySelector('#signatureUpload').parentElement;
+const signatureDropBox = document.getElementById('signatureDropBox');
+
+signatureUploadContainer.addEventListener('dragover', function(e) {
+  e.preventDefault();
+  signatureDropBox.style.display = 'flex';
+});
+
+signatureUploadContainer.addEventListener('dragleave', function(e) {
+  e.preventDefault();
+  signatureDropBox.style.display = 'none';
+});
+
+signatureUploadContainer.addEventListener('drop', function(e) {
+  e.preventDefault();
+  signatureDropBox.style.display = 'none';
+  const file = e.dataTransfer.files[0];
+  if (file) {
+    loadAndDrawImage(file, signatureCanvas, signatureCtx);
+  }
+});
