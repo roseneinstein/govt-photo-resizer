@@ -16,6 +16,7 @@ const translations = {
     downloadResizedSignature: "Download Resized Signature",
     examNotFound: "Exam not found!",
     examInfoNotLoaded: "Exam info not loaded!",
+    noExamsFound: "No exams found in exams.json!"
   },
   hi: {
     title: "सरकारी परीक्षा फोटो रिसाइज़र",
@@ -31,6 +32,7 @@ const translations = {
     downloadResizedSignature: "रिसाइज़्ड सिग्नेचर डाउनलोड करें",
     examNotFound: "परीक्षा नहीं मिली!",
     examInfoNotLoaded: "परीक्षा जानकारी लोड नहीं हुई!",
+    noExamsFound: "exams.json में कोई परीक्षा नहीं मिली!"
   },
   te: {
     title: "రాజకీయ పరీక్ష ఫోటో రీసైజర్",
@@ -46,6 +48,7 @@ const translations = {
     downloadResizedSignature: "రీసైజ్డ్ సంతకం డౌన్లోడ్ చేయండి",
     examNotFound: "పరీక్ష కనుగొనబడలేదు!",
     examInfoNotLoaded: "పరీక్ష సమాచారం లోడ్ కాలేదు!",
+    noExamsFound: "exams.jsonలో ఎలాంటి పరీక్షలు లేవు!"
   },
   ta: {
     title: "அரசு தேர்வு புகைப்படம் சீரமைப்பான்",
@@ -61,6 +64,7 @@ const translations = {
     downloadResizedSignature: "சீரமைக்கப்பட்ட கையெழுத்தை பதிவிறக்கவும்",
     examNotFound: "தேர்வு காணப்படவில்லை!",
     examInfoNotLoaded: "தேர்வு தகவல் ஏற்றப்படவில்லை!",
+    noExamsFound: "exams.json இல் எந்த தேர்வும் கிடைக்கவில்லை!"
   },
   kn: {
     title: "ಸರ್ಕಾರಿ ಪರೀಕ್ಷಾ ಫೋಟೋ ರೀಸೈಜರ್",
@@ -76,6 +80,7 @@ const translations = {
     downloadResizedSignature: "ರೀಸೈಜ್ ಮಾಡಿದ ಸಹಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ",
     examNotFound: "ಪರೀಕ್ಷೆಯನ್ನು ಕಂಡುಹಿಡಿಯಲಾಗಲಿಲ್ಲ!",
     examInfoNotLoaded: "ಪರೀಕ್ಷಾ ಮಾಹಿತಿಯನ್ನು ಲೋಡ್ ಮಾಡಲಾಗಲಿಲ್ಲ!",
+    noExamsFound: "exams.json ನಲ್ಲಿ ಪರೀಕ್ಷೆಗಳು ಸಿಗಲಿಲ್ಲ!"
   },
   bn: {
     title: "সরকারি পরীক্ষা ফটো রিসাইজার",
@@ -91,6 +96,7 @@ const translations = {
     downloadResizedSignature: "রিসাইজড স্বাক্ষর ডাউনলোড করুন",
     examNotFound: "পরীক্ষা পাওয়া যায়নি!",
     examInfoNotLoaded: "পরীক্ষার তথ্য লোড হয়নি!",
+    noExamsFound: "exams.json-এ কোন পরীক্ষা পাওয়া যায়নি!"
   },
   ml: {
     title: "സർക്കാർ പരീക്ഷ ഫോട്ടോ റീസൈസർ",
@@ -105,7 +111,8 @@ const translations = {
     resizeSignature: "ഒപ്പ് റീസൈസ് ചെയ്യുക",
     downloadResizedSignature: "റീസൈസ് ചെയ്ത ഒപ്പ് ഡൗൺലോഡ് ചെയ്യുക",
     examNotFound: "പരീക്ഷ കണ്ടെത്തിയില്ല!",
-    examInfoNotLoaded: "പരീക്ഷ വിവരങ്ങൾ ലോഡ് ചെയ്യാൻ സാധിച്ചില്ല!"
+    examInfoNotLoaded: "പരീക്ഷ വിവരങ്ങൾ ലോഡ് ചെയ്യാൻ സാധിച്ചില്ല!",
+    noExamsFound: "exams.jsonൽ പരീക്ഷകളൊന്നും കണ്ടെത്തിയില്ല!"
   },
   mr: {
     title: "सरकारी परीक्षा फोटो रीसाइझर",
@@ -120,7 +127,8 @@ const translations = {
     resizeSignature: "सही रीसाइझ करा",
     downloadResizedSignature: "रीसाइझ केलेली सही डाउनलोड करा",
     examNotFound: "परीक्षा आढळली नाही!",
-    examInfoNotLoaded: "परीक्षा माहिती लोड झाली नाही!"
+    examInfoNotLoaded: "परीक्षा माहिती लोड झाली नाही!",
+    noExamsFound: "exams.json मध्ये कोणतीही परीक्षा सापडली नाही!"
   }
 };
 
