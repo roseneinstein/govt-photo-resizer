@@ -46,15 +46,13 @@ const themeToggleButton = document.getElementById('theme-toggle');
 let currentTheme = localStorage.getItem('theme') || 'light';
 
 // 3. Apply the saved theme to the body (light-mode or dark-mode class)
-document.body.classList.add(`${currentTheme}-mode`);
+document.body.classList.add(currentTheme === 'dark' ? 'dark-mode' : 'light-mode');
 
 // 4. Function to update the button text
 function updateToggleButtonText() {
   if (document.body.classList.contains('dark-mode')) {
-    // If the body has dark-mode, the button should say Light Mode
     themeToggleButton.textContent = 'Light Mode';
   } else {
-    // Otherwise, the body is in light mode, so the button should say Dark Mode
     themeToggleButton.textContent = 'Dark Mode';
   }
 }
@@ -64,21 +62,14 @@ updateToggleButtonText();
 
 // 6. When the toggle button is clicked...
 themeToggleButton.addEventListener('click', function() {
-  // Check if we're currently in light mode
-  const isLightMode = document.body.classList.contains('light-mode');
+  // Toggle between light and dark mode
+  document.body.classList.toggle('light-mode');
+  document.body.classList.toggle('dark-mode');
 
-  if (isLightMode) {
-    // Switch to dark
-    document.body.classList.remove('light-mode');
-    document.body.classList.add('dark-mode');
-    localStorage.setItem('theme', 'dark');
-  } else {
-    // Switch to light
-    document.body.classList.remove('dark-mode');
-    document.body.classList.add('light-mode');
-    localStorage.setItem('theme', 'light');
-  }
+  // Save the selected theme in localStorage
+  const newTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+  localStorage.setItem('theme', newTheme);
 
-  // Update the button text after toggling
+  // Update the button text
   updateToggleButtonText();
 });
