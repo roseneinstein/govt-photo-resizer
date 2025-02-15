@@ -143,25 +143,23 @@ function updateTranslations(lang) {
   });
 }
 
-// Initialize language from localStorage (or default to English)
+// Always default to English on page load
 function initLanguage() {
-  const savedLang = localStorage.getItem("selectedLang") || "en";
+  const defaultLang = "en";
   const langSelector = document.getElementById("languageSelector");
   if (langSelector) {
-    langSelector.value = savedLang;
+    langSelector.value = defaultLang;
   }
-  updateTranslations(savedLang);
+  updateTranslations(defaultLang);
 }
 
-// When the DOM loads, initialize language and listen for changes
+// Initialize language when DOM loads
 document.addEventListener("DOMContentLoaded", () => {
   initLanguage();
   const langSelector = document.getElementById("languageSelector");
   if (langSelector) {
     langSelector.addEventListener("change", function() {
-      const selectedLang = this.value;
-      localStorage.setItem("selectedLang", selectedLang);
-      updateTranslations(selectedLang);
+      updateTranslations(this.value);
     });
   }
 });
