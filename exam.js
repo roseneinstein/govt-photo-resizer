@@ -143,9 +143,9 @@ signatureDropBox.addEventListener('drop', function(e) {
   signatureDropBox.classList.remove('active');
   const file = e.dataTransfer.files[0];
   if (file) {
-    updateSignatureFileName({files: [file]}, signatureFileName);
+    updateSignatureFileName({files: [file]}, signatureFileName); // Update file name when dropped
     loadAndDrawImage(file, signatureCanvas, signatureCtx);
-    signatureResizeBtn.disabled = false;
+    signatureResizeBtn.disabled = false; // Enable resize button when image is dropped
   }
 });
 
@@ -232,33 +232,3 @@ function downloadCompressedJPG(canvas, filename, minKB, maxKB) {
   }
   attemptDownload();
 }
-
-// ====================
-// STEP 4B: THEME TOGGLE LOGIC
-// ====================
-
-// 1. Grab the toggle button from exam.html
-const themeToggleButton = document.getElementById('theme-toggle');
-
-// 2. Check localStorage for a saved theme (light or dark)
-let currentTheme = localStorage.getItem('theme') || 'light';
-
-// 3. Apply the saved theme to the body (light-mode or dark-mode class)
-document.body.classList.add(`${currentTheme}-mode`);
-
-// 4. When the toggle button is clicked...
-themeToggleButton.addEventListener('click', function() {
-  // Check which mode is active
-  const isLightMode = document.body.classList.contains('light-mode');
-
-  // If we're currently in light mode, switch to dark; otherwise switch to light
-  if (isLightMode) {
-    document.body.classList.remove('light-mode');
-    document.body.classList.add('dark-mode');
-    localStorage.setItem('theme', 'dark');
-  } else {
-    document.body.classList.remove('dark-mode');
-    document.body.classList.add('light-mode');
-    localStorage.setItem('theme', 'light');
-  }
-});
