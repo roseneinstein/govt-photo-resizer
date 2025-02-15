@@ -38,12 +38,13 @@
         background: rgba(255, 255, 255, 0.8);
         padding: 20px;
         border-radius: 10px;
+        position: relative;
       }
     </style>
   </head>
 
   <body class="bg-light">
-    <div class="container my-4" style="position: relative;">
+    <div class="container my-4">
       <!-- Language Selector Dropdown -->
       <select id="languageSelector" style="position: absolute; top: 10px; right: 10px;">
         <option value="en">English</option>
@@ -56,22 +57,18 @@
         <option value="mr">मराठी</option>
       </select>
 
-      <h1 class="text-center mb-4">Govt Exam Photo Resizer</h1>
+      <h1 class="text-center mb-4" data-i18n="title">Govt Exam Photo Resizer</h1>
 
       <!-- Intro Paragraph -->
-      <p class="mt-4">
-        Welcome to our free <strong>Government Exam Photo Resizer</strong>. 
-        Easily resize and compress your photo and signature for popular exams like 
-        <strong>UPSC</strong>, <strong>SSC</strong>, <strong>IBPS</strong>, and more. 
-        Our tool automatically adjusts the image to meet official requirements, 
-        ensuring you stay within the correct file size and dimensions for each exam.
+      <p class="mt-4" data-i18n="introParagraph">
+        Welcome to our free Government Exam Photo Resizer. Easily resize and compress your photo and signature for popular exams like UPSC, SSC, IBPS, and more. Our tool automatically adjusts the image to meet official requirements, ensuring you stay within the correct file size and dimensions for each exam.
       </p>
 
-      <h2 class="mb-3">Upcoming Exams</h2>
+      <h2 class="mb-3" data-i18n="upcomingExamsHeading">Upcoming Exams</h2>
       <!-- List of Exams -->
       <div id="examList" class="list-group"></div>
 
-      <!-- New link to the other website at the bottom -->
+      <!-- Link to Custom Image Resizer -->
       <div class="mt-5 p-3 border rounded bg-info bg-opacity-10 text-center">
         <p class="mb-0">
           Looking for a more flexible image resizer? 
@@ -79,6 +76,7 @@
             href="https://roseneinstein.github.io/custom-image-resizer/" 
             target="_blank" 
             class="fw-bold"
+            data-i18n="customLinkText"
           >
             Check out our Custom Image Resizer!
           </a>
@@ -86,7 +84,8 @@
       </div>
     </div>
 
-    <!-- JavaScript File -->
+    <!-- Include the translation script BEFORE your home.js -->
+    <script src="translations.js"></script>
     <script src="home.js"></script>
   </body>
 </html>
