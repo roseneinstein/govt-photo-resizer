@@ -36,7 +36,7 @@ function displayExamLinks(examsData) {
 }
 
 // ====================
-// STEP 4A: THEME TOGGLE LOGIC
+// THEME TOGGLE LOGIC
 // ====================
 
 // 1. Grab the toggle button from index.html
@@ -48,19 +48,37 @@ let currentTheme = localStorage.getItem('theme') || 'light';
 // 3. Apply the saved theme to the body (light-mode or dark-mode class)
 document.body.classList.add(`${currentTheme}-mode`);
 
-// 4. When the toggle button is clicked...
+// 4. Function to update the button text
+function updateToggleButtonText() {
+  if (document.body.classList.contains('dark-mode')) {
+    // If the body has dark-mode, the button should say Light Mode
+    themeToggleButton.textContent = 'Light Mode';
+  } else {
+    // Otherwise, the body is in light mode, so the button should say Dark Mode
+    themeToggleButton.textContent = 'Dark Mode';
+  }
+}
+
+// 5. Right after applying the theme, set the correct button text
+updateToggleButtonText();
+
+// 6. When the toggle button is clicked...
 themeToggleButton.addEventListener('click', function() {
-  // Check which mode is active
+  // Check if we're currently in light mode
   const isLightMode = document.body.classList.contains('light-mode');
 
-  // If we're currently in light mode, switch to dark; otherwise switch to light
   if (isLightMode) {
+    // Switch to dark
     document.body.classList.remove('light-mode');
     document.body.classList.add('dark-mode');
     localStorage.setItem('theme', 'dark');
   } else {
+    // Switch to light
     document.body.classList.remove('dark-mode');
     document.body.classList.add('light-mode');
     localStorage.setItem('theme', 'light');
   }
+
+  // Update the button text after toggling
+  updateToggleButtonText();
 });
