@@ -1,5 +1,14 @@
 console.log("exam.js loaded!");
 
+// Prevent default behavior for dragover and drop on the entire document
+// This stops files from opening in a new tab when dropped outside our designated areas.
+document.addEventListener('dragover', function(e) {
+  e.preventDefault();
+});
+document.addEventListener('drop', function(e) {
+  e.preventDefault();
+});
+
 // 1) Get the exam name from the URL (e.g. exam.html?name=IIT-JEE%202025)
 const urlParams = new URLSearchParams(window.location.search);
 const examNameParam = urlParams.get("name");
@@ -167,7 +176,7 @@ function downloadCompressedJPG(canvas, filename, minKB, maxKB) {
 }
 
 // ====================
-// Drag and Drop Functionality
+// Drag and Drop Functionality for the Always-Visible Drop Boxes
 // ====================
 
 // Photo Drop Box Events
