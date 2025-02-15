@@ -43,30 +43,34 @@
   </head>
   <body class="bg-light">
     <div class="container my-4">
-      <!-- Language Selector Dropdown (Bigger on Index) -->
-      <select 
-        id="languageSelector" 
-        style="position: absolute; top: 10px; right: 10px; font-size: 16px; padding: 5px 10px; border-radius: 8px;"
-      >
-        <option value="en">English</option>
-        <option value="hi">हिंदी</option>
-        <option value="te">తెలుగు</option>
-        <option value="ta">தமிழ்</option>
-        <option value="kn">ಕನ್ನಡ</option>
-        <option value="bn">বাংলা</option>
-        <option value="ml">മലയാളം</option>
-        <option value="mr">मराठी</option>
-      </select>
+      
+      <!-- STEP 1: Wrap the language selector and toggle button in a new div -->
+      <div id="top-right-controls">
+        <!-- Language Selector (no absolute positioning here) -->
+        <select 
+          id="languageSelector" 
+          style="font-size: 16px; padding: 5px 10px; border-radius: 8px;"
+        >
+          <option value="en">English</option>
+          <option value="hi">हिंदी</option>
+          <option value="te">తెలుగు</option>
+          <option value="ta">தமிழ்</option>
+          <option value="kn">ಕನ್ನಡ</option>
+          <option value="bn">বাংলা</option>
+          <option value="ml">മലയാളം</option>
+          <option value="mr">मराठी</option>
+        </select>
 
-      <!-- TOGGLE BUTTON (added line) -->
-      <button 
-        id="theme-toggle" 
-        class="btn-primary" 
-        style="margin-bottom: 20px; display: block;"
-      >
-        Toggle Dark/Light Mode
-      </button>
-      <!-- END TOGGLE BUTTON -->
+        <!-- Toggle Button -->
+        <button 
+          id="theme-toggle" 
+          class="btn-primary" 
+          style="margin-left: 10px;" 
+        >
+          Toggle Dark/Light Mode
+        </button>
+      </div>
+      <!-- END STEP 1 -->
 
       <h1 class="text-center mb-4" data-i18n="title">Govt Exam Photo Resizer</h1>
 
