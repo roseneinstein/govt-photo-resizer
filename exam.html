@@ -41,31 +41,33 @@
         <option value="mr">मराठी</option>
       </select>
 
-      <h1 class="text-center mb-4" id="examName">Exam Details</h1>
+      <h1 class="text-center mb-4" id="examName" data-i18n="examDetailsHeading">Exam Details</h1>
 
-      <!-- Photo Upload -->
+      <!-- Photo Upload Section -->
       <div class="mb-4">
-        <h4>Upload Photo</h4>
+        <h4 data-i18n="uploadPhoto">Upload Photo</h4>
         <input type="file" id="photoUpload" class="form-control mb-2">
         <canvas id="photoCanvas" class="d-none"></canvas>
         <div class="button-group">
-          <button id="photoResizeButton" class="btn-primary">Resize Photo</button>
-          <button id="photoDownloadButton" class="btn-success" disabled>Download Resized Photo</button>
+          <button id="photoResizeButton" class="btn-primary" data-i18n="resizePhoto">Resize Photo</button>
+          <button id="photoDownloadButton" class="btn-success" disabled data-i18n="downloadResizedPhoto">Download Resized Photo</button>
         </div>
       </div>
 
-      <!-- Signature Upload -->
+      <!-- Signature Upload Section -->
       <div>
-        <h4>Upload Signature</h4>
+        <h4 data-i18n="uploadSignature">Upload Signature</h4>
         <input type="file" id="signatureUpload" class="form-control mb-2">
         <canvas id="signatureCanvas" class="d-none"></canvas>
         <div class="button-group">
-          <button id="signatureResizeButton" class="btn-primary">Resize Signature</button>
-          <button id="signatureDownloadButton" class="btn-success" disabled>Download Resized Signature</button>
+          <button id="signatureResizeButton" class="btn-primary" data-i18n="resizeSignature">Resize Signature</button>
+          <button id="signatureDownloadButton" class="btn-success" disabled data-i18n="downloadResizedSignature">Download Resized Signature</button>
         </div>
       </div>
     </div>
 
+    <!-- Include the translation script BEFORE exam.js -->
+    <script src="translations.js"></script>
     <script src="exam.js"></script>
   </body>
 </html>
