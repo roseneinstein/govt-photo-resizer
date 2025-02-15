@@ -1,12 +1,21 @@
 /* General Styles */
 body {
     font-family: Arial, sans-serif;
-    background-image: url("background.jpg");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
     backdrop-filter: blur(5px);
-    color: #333;
+    color: #333; /* Default text color */
+}
+
+/* Light theme (Default) */
+body.light-mode {
+    background-image: url("background.jpg");
+}
+
+/* Dark theme */
+body.dark-mode {
+    background-image: url("center_rectangular_dark_bg.png");
 }
 
 /* Increase font size for second page */
