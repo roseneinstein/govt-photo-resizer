@@ -26,24 +26,27 @@
     >
     <link rel="stylesheet" href="styles.css">
     <style>
-      /* Additional styles for the drag & drop boxes */
+      /* Additional styles for the visible drag & drop boxes */
       .upload-container {
-        position: relative;
+        margin-bottom: 1rem;
       }
       .drop-box {
-        position: absolute;
-        top: 0;
-        left: 0;
         width: 100%;
-        height: 100%;
+        height: 100px; /* Decent size */
         border: 2px dashed #aaa;
-        border-radius: 6px;
-        background-color: rgba(255, 255, 255, 0.7);
-        display: none;
+        border-radius: 8px;
+        display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 14px;
+        font-size: 16px;
         color: #555;
+        margin-bottom: 8px;
+        /* Always visible */
+      }
+      /* Optional: highlight the box when a file is dragged over */
+      .drop-box.active {
+        border-color: #007bff;
+        background-color: rgba(0, 123, 255, 0.1);
       }
     </style>
   </head>
@@ -64,12 +67,14 @@
 
       <h1 class="text-center mb-4" id="examName" data-i18n="examDetailsHeading">Exam Details</h1>
 
-      <!-- Photo Upload Section with Drag & Drop -->
+      <!-- Photo Upload Section with Always-Visible Drag & Drop Box -->
       <div class="mb-4">
         <h4 data-i18n="uploadPhoto">Upload Photo</h4>
         <div class="upload-container">
-          <input type="file" id="photoUpload" class="form-control mb-2">
-          <div id="photoDropBox" class="drop-box">Drag & Drop your photo here</div>
+          <!-- Visible Drag & Drop Area -->
+          <div id="photoDropBox" class="drop-box">Drag &amp; Drop your photo here</div>
+          <!-- File Input -->
+          <input type="file" id="photoUpload" class="form-control">
         </div>
         <canvas id="photoCanvas" class="d-none"></canvas>
         <div class="button-group">
@@ -78,12 +83,12 @@
         </div>
       </div>
 
-      <!-- Signature Upload Section with Drag & Drop -->
+      <!-- Signature Upload Section with Always-Visible Drag & Drop Box -->
       <div>
         <h4 data-i18n="uploadSignature">Upload Signature</h4>
         <div class="upload-container">
-          <input type="file" id="signatureUpload" class="form-control mb-2">
-          <div id="signatureDropBox" class="drop-box">Drag & Drop your signature here</div>
+          <div id="signatureDropBox" class="drop-box">Drag &amp; Drop your signature here</div>
+          <input type="file" id="signatureUpload" class="form-control">
         </div>
         <canvas id="signatureCanvas" class="d-none"></canvas>
         <div class="button-group">
