@@ -1,7 +1,6 @@
 console.log("exam.js loaded!");
 
-// Prevent default behavior for dragover and drop on the entire document
-// This stops files from opening in a new tab when dropped outside our designated areas.
+// Prevent default drag-and-drop behavior on the document (so files aren’t opened by the browser)
 document.addEventListener('dragover', function(e) {
   e.preventDefault();
 });
@@ -9,12 +8,12 @@ document.addEventListener('drop', function(e) {
   e.preventDefault();
 });
 
-// 1) Get the exam name from the URL (e.g. exam.html?name=IIT-JEE%202025)
+// 1) Get the exam name from the URL (e.g., exam.html?name=IIT-JEE%202025)
 const urlParams = new URLSearchParams(window.location.search);
 const examNameParam = urlParams.get("name");
 console.log("Exam name from URL:", examNameParam);
 
-// 2) Fetch exams.json and set selectedExam
+// 2) Fetch exams.json and set the selected exam
 fetch('exams.json')
   .then(response => response.json())
   .then(examsData => {
@@ -49,7 +48,6 @@ photoResizeBtn.addEventListener("click", function() {
     alert("Exam info not loaded!");
     return;
   }
-  // Use photoMinKB and photoMaxKB for photo
   resizeAndCompress(
     photoCanvas,
     photoCtx,
@@ -92,7 +90,6 @@ signatureResizeBtn.addEventListener("click", function() {
     alert("Exam info not loaded!");
     return;
   }
-  // Use signatureMinKB and signatureMaxKB for signature
   resizeAndCompress(
     signatureCanvas,
     signatureCtx,
@@ -144,18 +141,15 @@ function resizeAndCompress(canvas, context, targetWidth, targetHeight, minKB, ma
   canvas.width = targetWidth;
   canvas.height = targetHeight;
   context.drawImage(tempCanvas, 0, 0);
-
-  // Enable download button after resizing
+  
   downloadButton.disabled = false;
 }
 
 function downloadCompressedJPG(canvas, filename, minKB, maxKB) {
   let quality = 1.0;
-
   function attemptDownload() {
     canvas.toBlob((blob) => {
       const fileSizeKB = blob.size / 1024;
-      
       if (fileSizeKB > maxKB && quality > 0.1) {
         quality -= 0.05;
         attemptDownload();
@@ -176,22 +170,19 @@ function downloadCompressedJPG(canvas, filename, minKB, maxKB) {
 }
 
 // ====================
-// Drag and Drop Functionality for the Always-Visible Drop Boxes
+// Drag and Drop Functionality (for the always-visible drop boxes)
 // ====================
 
 // Photo Drop Box Events
 const photoDropBox = document.getElementById('photoDropBox');
-
 photoDropBox.addEventListener('dragover', function(e) {
   e.preventDefault();
   photoDropBox.classList.add('active');
 });
-
 photoDropBox.addEventListener('dragleave', function(e) {
   e.preventDefault();
   photoDropBox.classList.remove('active');
 });
-
 photoDropBox.addEventListener('drop', function(e) {
   e.preventDefault();
   photoDropBox.classList.remove('active');
@@ -203,17 +194,14 @@ photoDropBox.addEventListener('drop', function(e) {
 
 // Signature Drop Box Events
 const signatureDropBox = document.getElementById('signatureDropBox');
-
 signatureDropBox.addEventListener('dragover', function(e) {
   e.preventDefault();
   signatureDropBox.classList.add('active');
 });
-
 signatureDropBox.addEventListener('dragleave', function(e) {
   e.preventDefault();
   signatureDropBox.classList.remove('active');
 });
-
 signatureDropBox.addEventListener('drop', function(e) {
   e.preventDefault();
   signatureDropBox.classList.remove('active');
