@@ -39,14 +39,40 @@ const photoCanvas = document.getElementById("photoCanvas");
 const photoCtx = photoCanvas.getContext("2d");
 const photoResizeBtn = document.getElementById("photoResizeButton");
 const photoDownloadBtn = document.getElementById("photoDownloadButton");
+const photoDropBox = document.getElementById('photoDropBox');
 
-photoUploadInput.addEventListener("change", function(e) {
-  const file = e.target.files[0];
+function updateFileName(inputElement, displayElement) {
+  const file = inputElement.files[0];
   if (file) {
-    photoFileName.textContent = file.name; // Show file name
+    displayElement.textContent = file.name; // Show file name in the display element
   }
-  loadAndDrawImage(file, photoCanvas, photoCtx);
+}
+
+// Handle 'Choose File' input for photo
+photoUploadInput.addEventListener("change", function(e) {
+  updateFileName(e.target, photoFileName);
+  loadAndDrawImage(e.target.files[0], photoCanvas, photoCtx);
   photoResizeBtn.disabled = false; // Enable resize button after file is uploaded
+});
+
+// Handle Drag and Drop for photo
+photoDropBox.addEventListener('dragover', function(e) {
+  e.preventDefault();
+  photoDropBox.classList.add('active');
+});
+photoDropBox.addEventListener('dragleave', function(e) {
+  e.preventDefault();
+  photoDropBox.classList.remove('active');
+});
+photoDropBox.addEventListener('drop', function(e) {
+  e.preventDefault();
+  photoDropBox.classList.remove('active');
+  const file = e.dataTransfer.files[0];
+  if (file) {
+    updateFileName({files: [file]}, photoFileName);  // Update file name when dropped
+    loadAndDrawImage(file, photoCanvas, photoCtx);
+    photoResizeBtn.disabled = false; // Enable resize button when image is dropped
+  }
 });
 
 photoResizeBtn.addEventListener("click", function() {
@@ -87,14 +113,40 @@ const signatureCanvas = document.getElementById("signatureCanvas");
 const signatureCtx = signatureCanvas.getContext("2d");
 const signatureResizeBtn = document.getElementById("signatureResizeButton");
 const signatureDownloadBtn = document.getElementById("signatureDownloadButton");
+const signatureDropBox = document.getElementById('signatureDropBox');
 
-signatureUploadInput.addEventListener("change", function(e) {
-  const file = e.target.files[0];
+function updateSignatureFileName(inputElement, displayElement) {
+  const file = inputElement.files[0];
   if (file) {
-    signatureFileName.textContent = file.name; // Show file name
+    displayElement.textContent = file.name; // Show file name in the display element
   }
-  loadAndDrawImage(file, signatureCanvas, signatureCtx);
+}
+
+// Handle 'Choose File' input for signature
+signatureUploadInput.addEventListener("change", function(e) {
+  updateSignatureFileName(e.target, signatureFileName);
+  loadAndDrawImage(e.target.files[0], signatureCanvas, signatureCtx);
   signatureResizeBtn.disabled = false; // Enable resize button after file is uploaded
+});
+
+// Handle Drag and Drop for signature
+signatureDropBox.addEventListener('dragover', function(e) {
+  e.preventDefault();
+  signatureDropBox.classList.add('active');
+});
+signatureDropBox.addEventListener('dragleave', function(e) {
+  e.preventDefault();
+  signatureDropBox.classList.remove('active');
+});
+signatureDropBox.addEventListener('drop', function(e) {
+  e.preventDefault();
+  signatureDropBox.classList.remove('active');
+  const file = e.dataTransfer.files[0];
+  if (file) {
+    updateSignatureFileName({files: [file]}, signatureFileName); // Update file name when dropped
+    loadAndDrawImage(file, signatureCanvas, signatureCtx);
+    signatureResizeBtn.disabled = false; // Enable resize button when image is dropped
+  }
 });
 
 signatureResizeBtn.addEventListener("click", function() {
@@ -180,49 +232,3 @@ function downloadCompressedJPG(canvas, filename, minKB, maxKB) {
   }
   attemptDownload();
 }
-
-// ====================
-// Drag and Drop Functionality (for the always-visible drop boxes)
-// ====================
-
-// Photo Drop Box Events
-const photoDropBox = document.getElementById('photoDropBox');
-photoDropBox.addEventListener('dragover', function(e) {
-  e.preventDefault();
-  photoDropBox.classList.add('active');
-});
-photoDropBox.addEventListener('dragleave', function(e) {
-  e.preventDefault();
-  photoDropBox.classList.remove('active');
-});
-photoDropBox.addEventListener('drop', function(e) {
-  e.preventDefault();
-  photoDropBox.classList.remove('active');
-  const file = e.dataTransfer.files[0];
-  if (file) {
-    loadAndDrawImage(file, photoCanvas, photoCtx);
-    photoResizeBtn.disabled = false; // Enable resize button when image is dropped
-    photoFileName.textContent = file.name; // Show file name after file is dropped
-  }
-});
-
-// Signature Drop Box Events
-const signatureDropBox = document.getElementById('signatureDropBox');
-signatureDropBox.addEventListener('dragover', function(e) {
-  e.preventDefault();
-  signatureDropBox.classList.add('active');
-});
-signatureDropBox.addEventListener('dragleave', function(e) {
-  e.preventDefault();
-  signatureDropBox.classList.remove('active');
-});
-signatureDropBox.addEventListener('drop', function(e) {
-  e.preventDefault();
-  signatureDropBox.classList.remove('active');
-  const file = e.dataTransfer.files[0];
-  if (file) {
-    loadAndDrawImage(file, signatureCanvas, signatureCtx);
-    signatureResizeBtn.disabled = false; // Enable resize button when image is dropped
-    signatureFileName.textContent = file.name; // Show file name after file is dropped
-  }
-});
