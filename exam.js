@@ -170,7 +170,7 @@ function downloadCompressedJPG(canvas, filename, minKB, maxKB) {
 // Drag and Drop Functionality
 // ====================
 
-// DRAG & DROP for Photo Upload
+// For Photo Upload:
 const photoUploadContainer = document.querySelector('#photoUpload').parentElement;
 const photoDropBox = document.getElementById('photoDropBox');
 
@@ -193,7 +193,7 @@ photoUploadContainer.addEventListener('drop', function(e) {
   }
 });
 
-// DRAG & DROP for Signature Upload
+// For Signature Upload:
 const signatureUploadContainer = document.querySelector('#signatureUpload').parentElement;
 const signatureDropBox = document.getElementById('signatureDropBox');
 
