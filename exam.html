@@ -10,7 +10,7 @@
     <meta name="author" content="Your Website Name">
     <meta name="robots" content="index, follow">
 
-    <!-- Open Graph Meta Tags (for social media previews) -->
+    <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Government Exam Photo Resizer - Free Online Tool">
     <meta property="og:description" content="Easily resize and compress your photo & signature for government exams. Supports UPSC, SSC, IBPS, and more!">
     <meta property="og:url" content="https://roseneinstein.github.io/govt-photo-resizer/">
@@ -21,40 +21,56 @@
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      integrity="sha384-ENjdO4Dr2bkBIFxQpeyn6mdf1OzZ5kN0uVScCjaF5C9yIgYyQvQqA6JTc3Fm9CZj"
       crossorigin="anonymous"
     >
-    <link rel="stylesheet" href="styles.css">
     <style>
-      /* Styles for the visible drag & drop boxes */
-      .upload-container {
-        margin-bottom: 1rem;
+      /* Basic background & container styling */
+      body {
+        background: url('background.jpg') no-repeat center center fixed;
+        background-size: cover;
       }
+      .container {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 15px;
+        border-radius: 10px;
+        max-width: 600px;
+        margin: auto;
+      }
+      /* Style adjustments to keep things compact */
+      .upload-container {
+        margin-bottom: 5px;
+      }
+      /* The always-visible drag & drop box: a square that’s not too big */
       .drop-box {
-        width: 150px;
-        height: 150px;
-        margin: 0 auto 10px;
+        width: 100%;
+        height: 80px;
         border: 2px dashed #aaa;
         border-radius: 8px;
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 16px;
+        font-size: 14px;
         color: #555;
-        background-color: #f9f9f9;
+        margin-top: 5px;
       }
-      /* Optional: Highlight when active */
-      .drop-box.active {
-        border-color: #007bff;
-        background-color: rgba(0, 123, 255, 0.1);
+      .button-group {
+        margin-top: 5px;
+      }
+      /* Language selector styling */
+      #languageSelector {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 16px;
+        padding: 4px 8px;
+        border-radius: 8px;
       }
     </style>
   </head>
-
   <body class="bg-light">
     <div class="container my-4" style="position: relative;">
       <!-- Language Selector Dropdown -->
-      <select id="languageSelector" style="position: absolute; top: 10px; right: 10px; font-size: 18px; padding: 6px 12px; border-radius: 10px;">
+      <select id="languageSelector">
         <option value="en">English</option>
         <option value="hi">हिंदी</option>
         <option value="te">తెలుగు</option>
@@ -67,33 +83,33 @@
 
       <h1 class="text-center mb-4" id="examName" data-i18n="examDetailsHeading">Exam Details</h1>
 
-      <!-- Photo Upload Section with Always-Visible Drag & Drop Box -->
+      <!-- Photo Upload Section -->
       <div class="mb-4">
         <h4 data-i18n="uploadPhoto">Upload Photo</h4>
         <div class="upload-container">
-          <!-- Always visible drop box in square shape -->
+          <!-- "Choose File" input is immediately below header -->
+          <input type="file" id="photoUpload" class="form-control" style="margin-bottom: 5px;">
+          <!-- Always-visible drop box appears just below the file input -->
           <div id="photoDropBox" class="drop-box">Drag &amp; Drop your photo here</div>
-          <!-- File Input -->
-          <input type="file" id="photoUpload" class="form-control">
         </div>
         <canvas id="photoCanvas" class="d-none"></canvas>
         <div class="button-group">
-          <button id="photoResizeButton" class="btn-primary" data-i18n="resizePhoto">Resize Photo</button>
-          <button id="photoDownloadButton" class="btn-success" disabled data-i18n="downloadResizedPhoto">Download Resized Photo</button>
+          <button id="photoResizeButton" class="btn btn-primary" data-i18n="resizePhoto">Resize Photo</button>
+          <button id="photoDownloadButton" class="btn btn-success" disabled data-i18n="downloadResizedPhoto">Download Resized Photo</button>
         </div>
       </div>
 
-      <!-- Signature Upload Section with Always-Visible Drag & Drop Box -->
-      <div>
+      <!-- Signature Upload Section -->
+      <div class="mb-4">
         <h4 data-i18n="uploadSignature">Upload Signature</h4>
         <div class="upload-container">
+          <input type="file" id="signatureUpload" class="form-control" style="margin-bottom: 5px;">
           <div id="signatureDropBox" class="drop-box">Drag &amp; Drop your signature here</div>
-          <input type="file" id="signatureUpload" class="form-control">
         </div>
         <canvas id="signatureCanvas" class="d-none"></canvas>
         <div class="button-group">
-          <button id="signatureResizeButton" class="btn-primary" data-i18n="resizeSignature">Resize Signature</button>
-          <button id="signatureDownloadButton" class="btn-success" disabled data-i18n="downloadResizedSignature">Download Resized Signature</button>
+          <button id="signatureResizeButton" class="btn btn-primary" data-i18n="resizeSignature">Resize Signature</button>
+          <button id="signatureDownloadButton" class="btn btn-success" disabled data-i18n="downloadResizedSignature">Download Resized Signature</button>
         </div>
       </div>
     </div>
