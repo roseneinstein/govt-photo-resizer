@@ -180,3 +180,49 @@ function downloadCompressedJPG(canvas, filename, minKB, maxKB) {
   }
   attemptDownload();
 }
+
+// ====================
+// Drag and Drop Functionality (for the always-visible drop boxes)
+// ====================
+
+// Photo Drop Box Events
+const photoDropBox = document.getElementById('photoDropBox');
+photoDropBox.addEventListener('dragover', function(e) {
+  e.preventDefault();
+  photoDropBox.classList.add('active');
+});
+photoDropBox.addEventListener('dragleave', function(e) {
+  e.preventDefault();
+  photoDropBox.classList.remove('active');
+});
+photoDropBox.addEventListener('drop', function(e) {
+  e.preventDefault();
+  photoDropBox.classList.remove('active');
+  const file = e.dataTransfer.files[0];
+  if (file) {
+    loadAndDrawImage(file, photoCanvas, photoCtx);
+    photoResizeBtn.disabled = false; // Enable resize button when image is dropped
+    photoFileName.textContent = file.name; // Show file name after file is dropped
+  }
+});
+
+// Signature Drop Box Events
+const signatureDropBox = document.getElementById('signatureDropBox');
+signatureDropBox.addEventListener('dragover', function(e) {
+  e.preventDefault();
+  signatureDropBox.classList.add('active');
+});
+signatureDropBox.addEventListener('dragleave', function(e) {
+  e.preventDefault();
+  signatureDropBox.classList.remove('active');
+});
+signatureDropBox.addEventListener('drop', function(e) {
+  e.preventDefault();
+  signatureDropBox.classList.remove('active');
+  const file = e.dataTransfer.files[0];
+  if (file) {
+    loadAndDrawImage(file, signatureCanvas, signatureCtx);
+    signatureResizeBtn.disabled = false; // Enable resize button when image is dropped
+    signatureFileName.textContent = file.name; // Show file name after file is dropped
+  }
+});
