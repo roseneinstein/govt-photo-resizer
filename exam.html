@@ -26,13 +26,14 @@
     >
     <link rel="stylesheet" href="styles.css">
     <style>
-      /* Additional styles for the visible drag & drop boxes */
+      /* Styles for the visible drag & drop boxes */
       .upload-container {
         margin-bottom: 1rem;
       }
       .drop-box {
-        width: 100%;
-        height: 100px; /* Decent size */
+        width: 150px;
+        height: 150px;
+        margin: 0 auto 10px;
         border: 2px dashed #aaa;
         border-radius: 8px;
         display: flex;
@@ -40,10 +41,9 @@
         align-items: center;
         font-size: 16px;
         color: #555;
-        margin-bottom: 8px;
-        /* Always visible */
+        background-color: #f9f9f9;
       }
-      /* Optional: highlight the box when a file is dragged over */
+      /* Optional: Highlight when active */
       .drop-box.active {
         border-color: #007bff;
         background-color: rgba(0, 123, 255, 0.1);
@@ -71,7 +71,7 @@
       <div class="mb-4">
         <h4 data-i18n="uploadPhoto">Upload Photo</h4>
         <div class="upload-container">
-          <!-- Visible Drag & Drop Area -->
+          <!-- Always visible drop box in square shape -->
           <div id="photoDropBox" class="drop-box">Drag &amp; Drop your photo here</div>
           <!-- File Input -->
           <input type="file" id="photoUpload" class="form-control">
