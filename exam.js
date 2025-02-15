@@ -41,6 +41,7 @@ const photoDownloadBtn = document.getElementById("photoDownloadButton");
 
 photoUploadInput.addEventListener("change", function(e) {
   loadAndDrawImage(e.target.files[0], photoCanvas, photoCtx);
+  photoResizeBtn.disabled = false; // Enable resize button after file is uploaded
 });
 
 photoResizeBtn.addEventListener("click", function() {
@@ -83,6 +84,7 @@ const signatureDownloadBtn = document.getElementById("signatureDownloadButton");
 
 signatureUploadInput.addEventListener("change", function(e) {
   loadAndDrawImage(e.target.files[0], signatureCanvas, signatureCtx);
+  signatureResizeBtn.disabled = false; // Enable resize button after file is uploaded
 });
 
 signatureResizeBtn.addEventListener("click", function() {
@@ -189,6 +191,7 @@ photoDropBox.addEventListener('drop', function(e) {
   const file = e.dataTransfer.files[0];
   if (file) {
     loadAndDrawImage(file, photoCanvas, photoCtx);
+    photoResizeBtn.disabled = false; // Enable resize button when image is dropped
   }
 });
 
@@ -208,5 +211,6 @@ signatureDropBox.addEventListener('drop', function(e) {
   const file = e.dataTransfer.files[0];
   if (file) {
     loadAndDrawImage(file, signatureCanvas, signatureCtx);
+    signatureResizeBtn.disabled = false; // Enable resize button when image is dropped
   }
 });
