@@ -1,7 +1,7 @@
 /* General Styles */
 body {
     font-family: Arial, sans-serif;
-    background-image: url("background.jpg");
+    background-image: url('https://raw.githubusercontent.com/roseneinstein/govt-photo-resizer/main/background.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
