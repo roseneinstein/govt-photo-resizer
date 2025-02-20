@@ -35,9 +35,21 @@
     "signatureMinKB": 2,
     "signatureMaxKB": 20
   },
+{
+    "name": "UPSC-CMS 2025",
+    "date": "Last day to apply :11/03/2025",
+    "photoWidth": 700,
+    "photoHeight": 850,
+    "photoMinKB": 20,
+    "photoMaxKB": 300,
+    "signatureWidth": 400,
+    "signatureHeight": 400,
+    "signatureMinKB": 20,
+    "signatureMaxKB": 300
+  },
   {
     "name": "RRB Group D 2025",
-    "date": "Last day to apply : 23/02/2025",
+    "date": "Last day to apply : 1/03/2025",
     "photoWidth": 200,
     "photoHeight": 230,
     "photoMinKB": 50,
