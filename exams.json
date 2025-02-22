@@ -47,6 +47,18 @@
     "signatureMinKB": 20,
     "signatureMaxKB": 300
   },
+{
+    "name": "UPPSC(P) 2025",
+    "date": "Last day to apply :24/03/2025",
+    "photoWidth": 395,
+    "photoHeight": 472,
+    "photoMinKB": 10,
+    "photoMaxKB": 50,
+    "signatureWidth": 472,
+    "signatureHeight": 236,
+    "signatureMinKB": 5,
+    "signatureMaxKB": 30
+  },
   {
     "name": "RRB Group D 2025",
     "date": "Last day to apply : 1/03/2025",
